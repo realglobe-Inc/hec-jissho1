@@ -1,31 +1,25 @@
 const { Module } = require('sugo-module-base')
 const co = require('co')
 const { hasBin } = require('sg-check')
-const debug = require('debug')('sugo:module:mock-drone')
-const Drone = require('./drone_mock')
+const debug = require('debug')('sugo:module:mock-hitoe')
+const Hitoe = require('./hitoe_mock')
 
-const name = 'mock-drone-module'
+const name = 'mock-android-module'
 const version = '1.0.0'
-const description = 'Drone'
+const description = 'Hitoe'
 
-/** @lends DroneModule */
-class DroneModule extends Module {
+/** @lends HitoeModule */
+class HitoeModule extends Module {
   constructor (config = {}) {
     debug('Config: ', config)
     super(config)
     const s = this
-    s._drone = new Drone(config)
-    s._drone.on('location', (location) => {
-      s.emit('location', location)
+    s._hitoe = new Hitoe(config)
+    s._hitoe.on('warning', (data) => {
+      s.emit('warning', data)
     })
-    s._drone.on('start', () => {
-      s.emit('start')
-    })
-    s._drone.on('finish', () => {
-      s.emit('finish')
-    })
-    s._drone.on('abort', () => {
-      s.emit('abort')
+    s._hitoe.on('emergency', (data) => {
+      s.emit('emergency', data)
     })
   }
 
@@ -53,33 +47,12 @@ class DroneModule extends Module {
     })
   }
 
-  info () {
-    return {
-      type: 'drone',
-      name: this._drone.name,
-      dynamic: true
-    }
+  emitWarning (data) {
+    this._hitoe.emit('warning', data)
   }
 
-  /**
-   * Move to a location
-   */
-  moveTo (location) {
-    this._drone.moveTo(location)
-  }
-
-  /**
-   * Abort moving
-   */
-  abortMoving () {
-    this._drone.abortMoving()
-  }
-
-  /**
-   * Get drone location
-   */
-  getLocation () {
-    return this._drone.getLocation()
+  emitEmergency (data) {
+    this._hitoe.emit('emergency', data)
   }
 
   /**
@@ -115,51 +88,24 @@ class DroneModule extends Module {
             type: 'boolean',
             desc: 'System is OK'
           }
-        },
+        }
 
-        info: {
-          desc: 'information',
-          params: [],
-          return: {
-            type: 'object',
-            desc: 'information'
-          }
+        emitWarning: {
+          params: []
         },
-
-        moveTo: {
-          desc: 'Move to a location',
-          params: [
-            { name: 'location', type: 'object', desc: '{lat, lng}' }
-          ],
-          return: {}
-        },
-
-        abortMoving: {
-          desc: 'Abort moving',
-          params: [],
-          return: {}
-        },
-
-        getLocation: {
-          desc: 'Get drone location',
-          params: [],
-          return: {
-            type: 'object',
-            desc: 'location'
-          }
+        emitEmergency: {
+          params: []
         }
       },
       events: {
-        location: { desc: 'Chage the location {lat, lng}' },
-        start: {desc: 'Start moving'},
-        finish: {desc: 'Finish moving'},
-        abort: {desc: 'Abort moving'}
+        warning: {desc: ''},
+        emergency: {desc: ''}
       }
     }
   }
 }
 
-module.exports = DroneModule
+module.exports = HitoeModule
 
 /**
  * @property {Array} params - Invoke parameters.

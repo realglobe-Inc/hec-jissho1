@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * android actor の接続を監視する。
- * android-hitoe actor が接続してきたら、callerを立てる。
+ * hitoe actor の接続を監視する。
+ * hitoe-hitoe actor が接続してきたら、callerを立てる。
  * caller が report イベントを受け取ったら、 DB に report データを突っ込む
  */
 const co = require('co')
@@ -33,11 +33,11 @@ function observe () {
 function observeAndroid ({data, event}) {
   return co(function * () {
     // こんな感じのときに捕捉する
-    // { event: 'actor:update', data: { key: 'qq:hitoe:01', spec: { android: [Object] } } }
+    // { event: 'actor:update', data: { key: 'qq:hitoe:01', spec: { hitoe: [Object] } } }
     let actorKey = data.key
     let isAndroidSetup = event === 'actor:update' &&
                          actorKey.startsWith('qq:hitoe:') &&
-                         data.spec.android
+                         data.spec.hitoe
     if (!isAndroidSetup) {
       return
     }
@@ -45,12 +45,13 @@ function observeAndroid ({data, event}) {
     debug('Trying to connect caller: ', actorKey)
     let caller = sugoCaller(CALLER_URL)
     let actor = yield caller.connect(actorKey)
-    let android = actor.get('android')
-    if (!android) {
-      throw new Error('Cannot get an android module.')
+    let hitoe = actor.get('hitoe')
+    if (!hitoe) {
+      throw new Error('Cannot get an hitoe module.')
     }
-    android.on('report', pushReportDb)
-    android.on('error', (err) => { debug(err) })
+    hitoe.on('warning', pushReportDb('warning'))
+    hitoe.on('emergency', pushReportDb('emergency'))
+    hitoe.on('error', (err) => { debug(err) })
   }).catch((err) => { debug(err) })
 }
 
@@ -58,11 +59,14 @@ function observeAndroid ({data, event}) {
  * 通報データをDBにつっこむ
  */
 function pushReportDb (report) {
-  return co(function * () {
-    debug('Observer recieve report', report)
-    let Report = ReportModel()
-    yield Report.create(report)
-  })
+  return (event) => {
+    return co(function * () {
+      report.event = event
+      debug('Observer recieve report', report)
+      let Report = ReportModel()
+      yield Report.create(report)
+    })
+  }
 }
 
 module.exports = observe

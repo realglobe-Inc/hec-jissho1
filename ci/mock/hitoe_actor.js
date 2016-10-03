@@ -10,46 +10,28 @@ const ACTOR_KEY = process.env.ACTOR_KEY || 'qq:hitoe:01'
 const co = require('co')
 const asleep = require('asleep')
 const sugoActor = require('sugo-actor')
-const AndroidModule = require('./android_module')
+const HitoeModule = require('./android_module')
 const debug = require('debug')('hec:android_actor')
 
 co(function * () {
-  let android = new AndroidModule({
-    lat: 35.700575,
-    lng: 139.751983,
-    name: 'Hitoe Android'
-  })
+  let hitoe = new HitoeModule({})
   let actor = sugoActor(`${HUB_URL}/actors`, {
     key: ACTOR_KEY,
     modules: {
-      android
+      hitoe
     }
   })
   yield actor.connect()
 
   // 通報する Mock
-  let infoList = [
-    'やばい',
-    '倒れる',
-    '倒れました',
-    '心臓が止まりそう',
-    '心肺停止'
-  ]
   let reports = (new Array(5)).fill({
-    device_id: ACTOR_KEY,
-    device_name: 'Android',
-    report_id: 'report-01',
     lat: 35.700275,
-    lng: 139.753314
-    // date: Date.now()
-  }).map((report, i) => Object.assign({}, report, {
-    info: infoList[i],
-    lng: report.lng + i * 0.0001 // 10mくらい
-  }))
+    lng: 139.753314,
+    heartRate: 30
+  })
   for (let report of reports) {
     yield asleep(3000)
-    report.date = new Date()
-    debug('report', report)
-    android.emit('report', report)
+    debug('emergency', report)
+    hitoe.emit('emergency', report)
   }
 }).catch((err) => console.error(err))

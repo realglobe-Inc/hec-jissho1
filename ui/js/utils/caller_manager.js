@@ -31,9 +31,9 @@ function observeActors () {
     let observer = sugoObserver(({data, event}) => {
       // こんな感じのときに捕捉する
       // spec は許可された Module のみ。
-      // { event: 'actor:update', data: { key: 'android-hitoe-01', spec: { android: [Object] } } }
+      // { event: 'actor:update', data: { key: 'qq:hitoe:01', spec: { hitoe: [Object] } } }
       let actorKey = data.key
-      let allowedModules = ['drone', 'android']
+      let allowedModules = ['hitoe']
       let shouldConnect = event === 'actor:update' &&
                           allowedModules.includes(Object.keys(data.spec)[0])
       if (!shouldConnect) {
@@ -66,16 +66,10 @@ function _connectCaller (key) {
     let actor = yield caller.connect(key)
     let type = _moduleType(actor)
     switch (type) {
-      case 'drone':
+      case 'hitoe':
         {
-          let drone = actor.get('drone')
-          yield _initializeDrone(key, drone)
-        }
-        return
-      case 'android':
-        {
-          let android = actor.get('android')
-          yield _initializeAndroid(key, android)
+          let hitoe = actor.get('hitoe')
+          yield _initializeHitoe(key, hitoe)
         }
         return
       default:
@@ -85,7 +79,7 @@ function _connectCaller (key) {
 }
 
 function _moduleType (actor) {
-  let moduleNames = ['drone', 'android']
+  let moduleNames = ['hitoe']
   for (let name of moduleNames) {
     let has = actor.has(name)
     if (has) {
@@ -95,43 +89,21 @@ function _moduleType (actor) {
   return 'unknown'
 }
 
-function _initializeDrone (key, drone) {
+function _initializeHitoe (key, hitoe) {
   return co(function * () {
-    if (!drone) {
-      throw new Error('Cannot get drone module.')
-    }
-    let location = yield drone.getLocation()
-    let {type, name, dynamic} = yield drone.info()
-    drone.on('location', (location) => {
-      store.dispatch(actions.moveMarker({key, location}))
-      store.dispatch(actions.addDronePath(location))
-    })
-    store.dispatch(actions.setDroneActor(drone))
-    store.dispatch(actions.addMarker({
-      key,
-      type,
-      name,
-      dynamic,
-      location
-    }))
-  })
-}
-
-function _initializeAndroid (key, android) {
-  return co(function * () {
-    if (!android) {
-      throw new Error('Cannot get android module.')
+    if (!hitoe) {
+      throw new Error('Cannot get hitoe module.')
     }
     // 今の実装では、最後に通報のあった場所を地図上に表示する
-    // let {type, name, dynamic} = yield android.info()
-    android.on('report', (report) => {
-      debug('Recieved report: ', report.report_id)
+    // let {type, name, dynamic} = yield hitoe.info()
+    hitoe.on('emergency', (report) => {
+      debug('Recieved report: ', report)
       let {lat, lng} = report
       let location = {lat, lng}
       let storeState = store.getState()
       if (storeState.reports.length === 0) {
         store.dispatch(actions.addMarker({
-          key: report.report_id,
+          key: 'report',
           type: 'report',
           name: '通報',
           dynamic: false,
@@ -139,7 +111,7 @@ function _initializeAndroid (key, android) {
         }))
       } else {
         debug('Report marker moving')
-        store.dispatch(actions.moveMarker({key: report.report_id, location}))
+        store.dispatch(actions.moveMarker({key: 'report', location}))
       }
       store.dispatch(actions.addReport(report))
     })

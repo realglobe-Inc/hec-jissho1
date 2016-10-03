@@ -23,7 +23,7 @@ State shape is below.
   reports: [
     {
       date: Tue Sep 27 2016 14:43:07 GMT+0900 (JST)
-      deviceId: "android-01"
+      deviceId: "hitoe-01"
       deviceName: "Android"
       id: 1
       info: "調子が悪い"

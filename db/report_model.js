@@ -22,18 +22,6 @@ function ReportModel () {
   })
 
   let model = sequelize.define('report', {
-    /* デバイスの識別子 */
-    device_id: {
-      type: Sequelize.STRING
-    },
-    /* デバイスの名前 */
-    device_name: {
-      type: Sequelize.STRING
-    },
-    /* 通報の識別子。同一IDから複数の通報があり得る */
-    report_id: {
-      type: Sequelize.STRING
-    },
     /* 緯度 */
     lat: {
       type: Sequelize.DOUBLE(9, 6)
@@ -42,13 +30,17 @@ function ReportModel () {
     lng: {
       type: Sequelize.DOUBLE(9, 6)
     },
-    /* 付加情報 */
-    info: {
-      type: Sequelize.STRING(500)
+    /* イベント名 warning | emergency */
+    event: {
+      type: Sequelize.STRING
+    },
+    /* 心拍数 */
+    heartRate: {
+      type: Sequelize.INTEGER
     },
     /* 通報のあった日時 */
     date: {
-      type: Sequelize.DATE
+      type: Sequelize.STRING
     }
   }, {
     freezeTableName: true
