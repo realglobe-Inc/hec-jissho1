@@ -1,0 +1,7 @@
+$app-color: rgb(50, 169, 123);
+$app-dark-color: hsl(157, 54%, 30%);
+
+$border-color: $app-dark-color;
+$map-piece-color: #FF5352;
+$map-piece-selected-color: darken($map-piece-color, 30%);
+$map-height: 800px;

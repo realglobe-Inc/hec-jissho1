@@ -1,0 +1,19 @@
+@import "partials/variables";
+@import "partials/controller";
+@import "partials/report";
+
+#site {
+  height: 100%;
+}
+
+.app {
+  position: relative;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
