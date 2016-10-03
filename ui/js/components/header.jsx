@@ -9,7 +9,7 @@ const Header = React.createClass({
   render () {
     return (
       <div className={classnames('header', 'app-theme-background-color')}>
-        <h1>hec2　v{pkg.version}</h1>
+        <h1>hec-jissho1　v{pkg.version}</h1>
       </div>
     )
   }

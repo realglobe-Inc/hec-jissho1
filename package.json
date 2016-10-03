@@ -1,7 +1,7 @@
 {
-  "name": "hec2",
-  "version": "1.0.29",
-  "description": "Hecatonchair prototype 2",
+  "name": "hec-jissho1",
+  "version": "1.0.0",
+  "description": "総務省IoT ヘカトンケイルプロジェクト実証実験1",
   "scripts": {
     "build": "node ./ci/build.js && node ./ci/compile.js",
     "dev": "node ./ci/dev.js",
@@ -10,7 +10,7 @@
     "test": "karma start",
     "heroku-postbuild": "npm run build"
   },
-  "repository": "realglobe-Inc/hec2",
+  "repository": "realglobe-Inc/hec-jissho1",
   "keywords": [
     "SUGOS",
     "React.js",
@@ -23,9 +23,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/realglobe-Inc/hec2/issues"
+    "url": "https://github.com/realglobe-Inc/hec-jissho1/issues"
   },
-  "homepage": "https://github.com/realglobe-Inc/hec2#readme",
+  "homepage": "https://github.com/realglobe-Inc/hec-jissho1#readme",
   "dependencies": {
     "apeman-react-button": "^4.0.8",
     "apemancolor": "^1.3.0",

@@ -6,7 +6,7 @@
 'use strict'
 
 const { nameColorizer } = require('apemancolor/lib/colorizers')
-let color = nameColorizer('#3A8')('hec2')
+let color = nameColorizer('#3A8')('hec-jissho1')
 
 module.exports = {
   color, // rgba(50, 169, 123, 1)

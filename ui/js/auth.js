@@ -9,7 +9,7 @@ module.exports = function (prompt, localStorage) {
     return true
   }
   var password = prompt('Password?')
-  var ok = sha1(String(password).trim()) === '816d246b23f4f78880b094c66a52b2b40878ce08'
+  var ok = sha1(String(password).trim()) === '7cf376588bab612485fc1a908175cbb69afc2d17'
   if (ok) {
     localStorage.setItem(storageKey, 'ok')
     return true

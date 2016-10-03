@@ -4,7 +4,7 @@
     "MYSQL_ROOT_PASSWORD": "8df7f638da50ddfa8f6a",
     "DB_PORT": 3306,
     "DB_DOCKER_IMAGE": "mysql:5.7",
-    "DB_DOCKER_CONTAINER_NAME": "hec2-mysql",
+    "DB_DOCKER_CONTAINER_NAME": "hec-jissho1-mysql",
     "DB_URL": "mysql://root:8df7f638da50ddfa8f6a@localhost:3306/hecatonchair"
   },
   "production": {
