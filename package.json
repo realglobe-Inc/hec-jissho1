@@ -12,9 +12,7 @@
   },
   "repository": "realglobe-Inc/hec-jissho1",
   "keywords": [
-    "SUGOS",
-    "React.js",
-    "Redux"
+    "Hecatonchair"
   ],
   "author": {
     "email": "fujiharuka@realglobe.jp",
@@ -52,7 +50,6 @@
     "sugo-ci-site": "^1.0.20",
     "sugo-hub": "^4.0.4",
     "sugo-module-base": "^1.1.2",
-    "sugo-module-noop": "^4.0.3",
     "sugo-observer": "^2.0.6"
   },
   "devDependencies": {

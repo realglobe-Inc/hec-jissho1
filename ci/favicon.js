@@ -1,13 +1,6 @@
-// #!/usr/bin/env node
-//
-// /**
-//  * Generate favicon.
-//  */
-//
-// 'use strict'
-//
-process.chdir(`${__dirname}/..`)
+#!/usr/bin/env node
 
+process.chdir(`${__dirname}/..`)
 
 /**
  * Generate favicon for an example project
@@ -46,13 +39,7 @@ function exampleFavicon (name, color, options = {}) {
   ], true)
 }
 
-// module.exports = exampleFavicon
-
-
 const { name } = require('../package.json')
-const { color } = require('../ui/config')()
-// const { favicon } = require('sugo-ci-site')
-//
-// favicon(name, color, {})
+const { color } = require('../ui/config')
 
 exampleFavicon(name, color, {})

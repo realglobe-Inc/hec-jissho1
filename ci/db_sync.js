@@ -3,7 +3,6 @@
  * Sync Datebase
  */
 
-const Sequelize = require('sequelize')
 const co = require('co')
 const { exec } = require('child_process')
 const ReportModel = require('../db/report_model')

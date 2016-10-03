@@ -6,13 +6,15 @@ const { db } = require('../env')
 const { DB_URL } = db
 const debug = require('debug')('sg:db:Report')
 
+const { HEROKU } = process.env
+
 function ReportModel () {
   let sequelize = new Sequelize(DB_URL, {
     dialect: 'mysql',
     pool: {
       max: 3,
       min: 0,
-      idle: 3
+      idle: HEROKU ? 3 : 100
     },
     logging: (data) => {
       debug(data)

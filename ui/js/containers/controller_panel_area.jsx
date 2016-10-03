@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import AreaDrone from './area_drone'
 import storeUtil from '../utils/store_util'
 import appUtil from '../utils/app_util'
 
@@ -35,8 +34,6 @@ const mapStateToProps = (state, ownProp) => {
     return { content }
   }
   switch (marker.type) {
-    case 'drone':
-      return { content: <AreaDrone/> }
     case 'report':
       let report = storeUtil.getLatestReport(state)
       return { content: (
