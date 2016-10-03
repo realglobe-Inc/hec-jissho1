@@ -88,8 +88,7 @@ class HitoeModule extends Module {
             type: 'boolean',
             desc: 'System is OK'
           }
-        }
-
+        },
         emitWarning: {
           params: []
         },

@@ -6,10 +6,10 @@ class Hitoe extends EventEmitter {
     super()
     const s = this
     s.on('warning', (report) => {
-      debug(report)
+      debug('warning', report)
     })
     s.on('emergency', (report) => {
-      debug(report)
+      debug('emergency', report)
     })
   }
 }

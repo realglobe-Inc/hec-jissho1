@@ -38,7 +38,7 @@ function ReportModel () {
     heartRate: {
       type: Sequelize.INTEGER
     },
-    /* 通報のあった日時 */
+    /* 通報のあった日時 ISO 文字列 */
     date: {
       type: Sequelize.STRING
     }
