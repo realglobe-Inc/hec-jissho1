@@ -26,8 +26,9 @@ let ControllerMap = React.createClass({
     let {props, state} = s
     let {dispatch, storeState} = props
     let {map} = storeState
+    let mapHeight = window.innerHeight - 50 // header-height = 50px
     return (
-      <div className='controller-map' id='controller-map'>
+      <div className='controller-map' id='controller-map' style={{height: `${mapHeight}px`}}>
         <GoogleMap center={map.center}
                    defaultZoom={17}
                    bootstrapURLKeys={{key: apiKey}}

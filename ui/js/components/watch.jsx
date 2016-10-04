@@ -1,6 +1,3 @@
-/**
- * Map controller header
- */
 import React from 'react'
 import appUtil from '../utils/app_util'
 
@@ -36,15 +33,4 @@ const Watch = React.createClass({
   }
 })
 
-const ControllerHeader = React.createClass({
-  render () {
-    return (
-      <div className='controller-header'>
-        <h2>Map Controller</h2>
-        <Watch />
-      </div>
-    )
-  }
-})
-
-export default ControllerHeader
+export default Watch

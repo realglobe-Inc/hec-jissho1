@@ -3,13 +3,14 @@
  */
 import React from 'react'
 import classnames from 'classnames'
-import pkg from '../../../package.json'
+import Watch from './watch'
 
 const Header = React.createClass({
   render () {
     return (
       <div className={classnames('header', 'app-theme-background-color')}>
-        <h1>hec-jissho1　v{pkg.version}</h1>
+        <h1>緊急通報システム リファレンスモデル</h1>
+        <Watch/>
       </div>
     )
   }
