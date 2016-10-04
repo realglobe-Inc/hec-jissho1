@@ -11,15 +11,6 @@ export default {
     return marker
   },
   getLatestReport (state) {
-    // let {reports} = state
-    // if (reports.length === 0) {
-    //   return null
-    // }
-    // let latest = reports.reduce((prev, report) => {
-    //   return prev.date < report.date ? report : prev
-    // }, {date: new Date(0)})
-    // return latest
-
     // 末尾が最新
     if (!this.hasReport(state)) {
       return null

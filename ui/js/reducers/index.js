@@ -42,6 +42,7 @@ import map from './map'
 import modalWindow from './modal_window'
 import selectedMarkerKey from './selected_marker_key'
 import reports from './reports'
+import warningDisplay from './warning_display'
 
 const Reducer = combineReducers({
   // actors,
@@ -50,7 +51,8 @@ const Reducer = combineReducers({
   map,
   modalWindow,
   selectedMarkerKey,
-  reports
+  reports,
+  warningDisplay
 })
 
 export default Reducer

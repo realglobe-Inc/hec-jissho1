@@ -111,11 +111,24 @@ function _initializeHitoe (key, hitoe) {
           name: '通報者',
           dynamic: false
         }))
+        _warnDisplay()
       } else {
         debug('Report marker moving')
         store.dispatch(actions.moveMarker({key: 'report', location}))
       }
-      // store.dispatch(actions.addReport(report))
+      store.dispatch(actions.addReport(report))
     })
   })
+}
+
+/**
+ * 画面に警告の効果
+ */
+function _warnDisplay () {
+  let interval = 800
+  for (let i = 0; i < 4; i++) {
+    setTimeout(() => {
+      store.dispatch(actions.toggleWarningDisplay())
+    }, i * interval)
+  }
 }
