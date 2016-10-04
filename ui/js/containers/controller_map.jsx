@@ -30,6 +30,7 @@ let ControllerMap = React.createClass({
     return (
       <div className='controller-map' id='controller-map' style={{height: `${mapHeight}px`}}>
         <GoogleMap center={map.center}
+                   options={s.createMapOptions}
                    defaultZoom={17}
                    bootstrapURLKeys={{key: apiKey}}
                    onChildClick={s.onMarkerClick}
@@ -40,6 +41,32 @@ let ControllerMap = React.createClass({
         </GoogleMap>
       </div>
     )
+  },
+
+  createMapOptions () {
+    return {
+      styles: [
+        {
+          stylers: [
+            { hue: '#CDDC39' },
+            { saturation: -20 }
+          ]
+        }, {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers: [
+            { lightness: 100 },
+            { visibility: 'simplified' }
+          ]
+        }, {
+          featureType: 'road',
+          elementType: 'labels',
+          stylers: [
+            { visibility: 'off' }
+          ]
+        }
+      ]
+    }
   },
 
   dispatchChangeMapCenter ({center}) {
