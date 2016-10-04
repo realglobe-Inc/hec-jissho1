@@ -94,26 +94,28 @@ function _initializeHitoe (key, hitoe) {
     if (!hitoe) {
       throw new Error('Cannot get hitoe module.')
     }
-    // 今の実装では、最後に通報のあった場所を地図上に表示する
-    // let {type, name, dynamic} = yield hitoe.info()
+    // emergency イベントのときに通報とする
     hitoe.on('emergency', (report) => {
       debug('Recieved report: ', report)
-      let {lat, lng} = report
+      let [lat, lng] = report.location
       let location = {lat, lng}
+      let {heartRate, date} = report
       let storeState = store.getState()
       if (storeState.reports.length === 0) {
         store.dispatch(actions.addMarker({
           key: 'report',
+          location,
+          heartRate,
+          date: new Date(date),
           type: 'report',
-          name: '通報',
-          dynamic: false,
-          location
+          name: '通報者',
+          dynamic: false
         }))
       } else {
         debug('Report marker moving')
         store.dispatch(actions.moveMarker({key: 'report', location}))
       }
-      store.dispatch(actions.addReport(report))
+      // store.dispatch(actions.addReport(report))
     })
   })
 }

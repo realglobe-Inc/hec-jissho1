@@ -6,7 +6,7 @@ const reports = (state = [], action) => {
     case 'FETCH_ALL_REPORTS':
       return action.reports
     case 'ADD_REPORT':
-      return [action.report].concat(state)
+      return state.concat(action.report) // 最新の通報が最後尾
     default:
       return state
   }

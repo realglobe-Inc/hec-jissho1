@@ -173,8 +173,20 @@ $panel-area-content-height: calc(#{$panel-area-height} - #{$panel-area-title-hei
 }
 
 .area-report {
-  li {
-    font-size: 1.2em;
+  font-size: 24px;
+  h4 {
+    color: $warning-color;
+  }
+  .report-watch-wrapper {
+    margin: 20px 0;
+    .report-watch {
+      margin: 20px 0;
+      color: $warning-color;
+      text-align: center;
+    }
+  }
+  .info {
+    margin: 20px 0;
   }
 }
 

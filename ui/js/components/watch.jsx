@@ -13,7 +13,7 @@ const Watch = React.createClass({
     let time = appUtil.formatTime(now)
     return (
       <div className='watch'>
-      Time {time}
+      時刻 {time}
       </div>
     )
   },

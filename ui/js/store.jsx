@@ -40,9 +40,9 @@ Object.assign(store, {
       // marker の key は reportId
       let location = {lat: latest.lat, lng: latest.lng}
       this.dispatch(actions.addMarker({
-        key: latest.reportId,
+        key: 'report',
         type: 'report',
-        name: '通報',
+        name: '通報者',
         dynamic: false,
         location
       }))

@@ -35,7 +35,9 @@ function _translate (report) {
 
 const fetchAllReports = () => (dispatch, getState) => co(function * () {
   let reports = yield _request('/reports')
-  reports = reports.map((report) => _translate(report)).sort((a, b) => b.date - a.date)
+  console.log(reports)
+  reports = reports.map((report) => _translate(report)).sort((a, b) => a.date - b.date)
+  console.log(reports)
   dispatch({
     type: 'FETCH_ALL_REPORTS',
     reports

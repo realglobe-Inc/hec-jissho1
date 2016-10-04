@@ -5,6 +5,41 @@ import appUtil from '../utils/app_util'
 
 const debug = require('debug')('hec:ControllerPanelArea')
 
+const ReportWatch = React.createClass({
+  getInitialState () {
+    return {
+      /* start からの経過秒数 */
+      ms: new Date() - this.props.start
+    }
+  },
+  render () {
+    const s = this
+    let {ms} = s.state
+    let padding = number => ('0' + number).slice(-2)
+    let seconds = Math.floor(ms / 1000)
+    let hours = Math.floor(seconds / 3600)
+    seconds %= 3600
+    let minutes = Math.floor(seconds / 60)
+    seconds %= 60
+    return (
+      <div className='report-watch'>
+       {hours} 時間 {padding(minutes)} 分 {padding(seconds)} 秒
+      </div>
+    )
+  },
+  componentDidMount () {
+    const s = this
+    s.timer = setInterval(() => {
+      this.setState({ms: new Date() - s.props.start})
+    }, 1000)
+  },
+
+  componentWillUnmount () {
+    const s = this
+    clearInterval(s.timer)
+  }
+})
+
 let ControllerPanelArea = React.createClass({
   propTypes: {
     content: React.PropTypes.object
@@ -17,7 +52,7 @@ let ControllerPanelArea = React.createClass({
     return (
       <div className='controller-panel-area'>
         <div className='title'>
-          Information
+          通報情報
         </div>
         <div className='content'>
           {content}
@@ -28,25 +63,30 @@ let ControllerPanelArea = React.createClass({
 })
 
 const mapStateToProps = (state, ownProp) => {
-  let marker = storeUtil.getSelectedMarker(state)
-  if (!marker) {
-    let content = <h3>Not selected</h3>
-    return { content }
-  }
-  switch (marker.type) {
-    case 'report':
-      let report = storeUtil.getLatestReport(state)
-      return { content: (
-        <div className='area-report'>
-          <h4>最新の通報</h4>
-          <ul>
-            <li>通報時間: {appUtil.formatTime(report.date)}</li>
-            <li>情報: {report.info}</li>
-          </ul>
+  // この実証実験では常に通報情報詳細を表示する
+  let has = storeUtil.hasReport(state)
+  if (!has) {
+    return { content: <div><h4>通報はありません</h4></div> }
+  } else {
+    let latest = storeUtil.getLatestReport(state)
+    let first = storeUtil.getFirstReport(state)
+    return { content: (
+      <div className='area-report'>
+        <h4>通報あり</h4>
+        <div className='report-watch-wrapper'>
+          <div>
+            通報からの経過時間
+          </div>
+          <ReportWatch start={first.date}/>
         </div>
-      ) }
-    default:
-      return { content: <h4>{marker.name}</h4> }
+        <div className='info'>
+          心拍数: {latest.heartRate}
+        </div>
+        <div className='info'>
+          通報時刻: {appUtil.formatTime(first.date)}
+        </div>
+      </div>
+    ) }
   }
 }
 
