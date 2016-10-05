@@ -24,7 +24,8 @@ const ControllerPanel = React.createClass({
     return (
       <div className='controller-panel' style={displayStyle}>
         <div className='panel-display-toggle' onClick={s.toggleDisplay}>
-          <i className={c('fa', 'fa-2x', display ? 'fa-caret-left' : 'fa-caret-right')} aria-hidden></i>
+          <i className={c('fa', 'fa-3x', display ? 'fa-caret-left' : 'fa-caret-right')} aria-hidden></i>
+          <div className='expand' onClick={s.toggleDisplay}></div>
         </div>
         <ControllerPanelSelect/>
         <ControllerPanelArea/>
