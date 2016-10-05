@@ -4,10 +4,27 @@
 import store from '../store'
 import actions from '../actions'
 import co from 'co'
+import request from 'browser-request'
 
 const debug = require('debug')('hec:app_util')
 
 export default {
+  /**
+   * すべての通報をクローズする
+   */
+  closeReport () {
+    // TODO Store
+
+    // Server side
+    request({
+      method: 'POST',
+      url: window.location.href + 'close_report'
+    }, (err, resp, body) => {
+      if (err) {
+        console.error(err)
+      }
+    })
+  },
   /**
    * Date のインスタンスをいい感じにフォーマットした文字列にして返す
    */

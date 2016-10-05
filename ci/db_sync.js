@@ -6,6 +6,7 @@
 const co = require('co')
 const { exec } = require('child_process')
 const ReportModel = require('../db/report_model')
+const OpenReportModel = require('../db/open_report_model')
 const { db } = require('../env')
 const {
   DB_DOCKER_CONTAINER_NAME
@@ -22,8 +23,10 @@ co(function * () {
   }
 
   let Report = ReportModel()
-
   yield Report.sync({ force: true })
+
+  let OpenReport = OpenReportModel()
+  yield OpenReport.sync({ force: true })
   // Mock データ
   // yield Report.create({
   //   device_id: 'android-01',
@@ -34,8 +37,4 @@ co(function * () {
   //   info: '調子が悪い',
   //   date: new Date()
   // })
-  //
-  // let report = yield Report.findOne()
-  // console.log('\nInitial data')
-  // console.log(report.dataValues)
 }).catch((err) => { console.error(err) })

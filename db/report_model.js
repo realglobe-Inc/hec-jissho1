@@ -1,5 +1,7 @@
 /**
  * 通報情報用のデータベースのモデル
+ * bin/observer が通報を受け取ってデータベースに入れる
+ * ブラウザ側では初回ロード時にデータベースから通報情報を取ってくる。
  */
 const Sequelize = require('sequelize')
 const { db } = require('../env')
@@ -22,13 +24,20 @@ function ReportModel () {
   })
 
   let model = sequelize.define('report', {
+    /* 通報 ID */
+    report_id: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     /* 緯度 */
     lat: {
-      type: Sequelize.DOUBLE(9, 6)
+      type: Sequelize.DOUBLE(9, 6),
+      allowNull: false
     },
     /* 経度 */
     lng: {
-      type: Sequelize.DOUBLE(9, 6)
+      type: Sequelize.DOUBLE(9, 6),
+      allowNull: false
     },
     /* イベント名 warning | emergency */
     event: {
@@ -40,7 +49,8 @@ function ReportModel () {
     },
     /* 通報のあった日時 ISO 文字列 */
     date: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false
     }
   }, {
     freezeTableName: true
