@@ -5,8 +5,27 @@
   width: 100%;
   height: 100%;
   background: rgba(255,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 300px;
 }
 
-.warning-display-hidden {
-  display: hidden;
+.warning-enter {
+  opacity: 0.01;
+}
+
+.warning-enter.warning-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease;
+}
+
+.warning-leave {
+  opacity: 1;
+}
+
+.warning-leave.warning-leave-active {
+  opacity: 0.01;
+  transition: opacity 200ms ease;
 }

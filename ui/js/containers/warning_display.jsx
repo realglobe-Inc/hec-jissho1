@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 const debug = require('debug')('hec:WarningDisplay')
 
@@ -8,8 +9,23 @@ let WarningDisplay = React.createClass({
     const s = this
     let {warningDisplay} = s.props
     debug(warningDisplay)
+    let item = warningDisplay ? s.displayElement() : []
     return (
-      <div className={warningDisplay ? 'warning-display' : 'warning-display-hidden'}></div>
+      <ReactCSSTransitionGroup
+        transitionName='warning'
+        transitionEnterTimeout={0}
+        transitionLeaveTimeout={0}
+        >
+        {item}
+      </ReactCSSTransitionGroup>
+    )
+  },
+
+  displayElement () {
+    return (
+      <div className='warning-display' key='1'>
+        通 報
+      </div>
     )
   }
 })
