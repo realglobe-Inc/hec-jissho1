@@ -5,13 +5,14 @@ import React from 'react'
 import ControllerPanelArea from '../containers/controller_panel_area'
 import ControllerPanelSelect from '../containers/controller_panel_select'
 import c from 'classnames'
+import appUtil from '../utils/app_util'
 
 const debug = require('debug')('hec:ControllerPanel')
 
 const ControllerPanel = React.createClass({
   getInitialState () {
     return {
-      display: true
+      display: !appUtil.isSmartPhone()
     }
   },
 

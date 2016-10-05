@@ -12,6 +12,9 @@ const { port } = require('../env')
 const ip = require('ip')
 const observe = require('../bin/observer.js')
 
+const HOST = ip.address()
+process.env.HUB_URL = `http://${HOST}:${port.SERVER}`
+
 function spawnWithEnv (command) {
   console.log(`> ${command}`)
   let child = spawn(command, [], {
@@ -19,7 +22,8 @@ function spawnWithEnv (command) {
     env: Object.assign({}, process.env, {
       NODE_ENV: 'development',
       DEBUG: 'sg:*,hec:*',
-      HOSTNAME: `localhost:${port.SERVER}`
+      HOSTNAME: `${HOST}:${port.SERVER}`,
+      HUB_URL: `http://${HOST}:${port.SERVER}`
     })
   })
   child.on('error', (err) => console.error(err))
@@ -50,7 +54,7 @@ co(function * () {
   yield asleep(1000)
   spawnWithEnv('./bin/hub.js')
   yield asleep(1000)
-  devServer({ host: 'localhost', port, dir: process.cwd() })
+  devServer({ host: HOST, port, dir: process.cwd() })
   yield asleep(1000)
   yield observe()
 }).catch((err) => console.error(err))
