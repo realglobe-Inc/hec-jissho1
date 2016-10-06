@@ -51,7 +51,14 @@ const addReport = (report) => {
   }
 }
 
+const closeReports = () => {
+  return {
+    type: 'CLOSE_REPORTS'
+  }
+}
+
 export default {
   fetchAllReports,
-  addReport
+  addReport,
+  closeReports
 }

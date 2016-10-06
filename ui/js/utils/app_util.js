@@ -14,8 +14,9 @@ export default {
    * すべての通報をクローズする
    */
   closeReports () {
-    // TODO Store
-
+    // Store side
+    store.dispatch(actions.closeReports())
+    store.dispatch(actions.removeMarker('report'))
     // Server side
     request({
       method: 'POST',
