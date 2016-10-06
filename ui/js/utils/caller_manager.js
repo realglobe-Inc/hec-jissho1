@@ -110,6 +110,10 @@ function _initializeHitoe (key, hitoe) {
           name: '通報者',
           dynamic: false
         }))
+        store.dispatch(actions.addHitoeCaller({
+          key,
+          hitoe
+        }))
         appUtil.warnDisplay()
       } else {
         debug('Report marker moving')

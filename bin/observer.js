@@ -119,7 +119,7 @@ function pushReportDb (actorKey) {
 * 通報ID(report_id)は actorKey と actor の最初の接続時間でつける。
  */
 function createReportId (actorKey) {
-  return actorKey + '-' + (new Date()).toISOString()
+  return actorKey + '#' + (new Date()).toISOString()
 }
 
 module.exports = observe
