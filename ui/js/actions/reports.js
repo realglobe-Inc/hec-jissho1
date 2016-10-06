@@ -1,6 +1,7 @@
 const co = require('co')
 const bRequest = require('browser-request')
 const camelcase = require('camelcase')
+const urls = require('../utils/urls')
 
 // --- Private functions ---
 
@@ -34,7 +35,7 @@ function _translate (report) {
 // --- Actions ---
 
 const fetchAllReports = () => (dispatch, getState) => co(function * () {
-  let reports = yield _request('/reports')
+  let reports = yield _request(urls.openReports())
   reports = reports.map((report) => _translate(report)).sort((a, b) => a.date - b.date)
   dispatch({
     type: 'FETCH_ALL_REPORTS',

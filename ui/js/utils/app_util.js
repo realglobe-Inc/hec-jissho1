@@ -5,6 +5,7 @@ import store from '../store'
 import actions from '../actions'
 import co from 'co'
 import request from 'browser-request'
+import urls from './urls'
 
 const debug = require('debug')('hec:app_util')
 
@@ -12,13 +13,13 @@ export default {
   /**
    * すべての通報をクローズする
    */
-  closeReport () {
+  closeReports () {
     // TODO Store
 
     // Server side
     request({
       method: 'POST',
-      url: window.location.href + 'close_report'
+      url: urls.closeReports()
     }, (err, resp, body) => {
       if (err) {
         console.error(err)

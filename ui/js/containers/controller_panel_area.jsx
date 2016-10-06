@@ -91,7 +91,7 @@ let ControllerPanelArea = React.createClass({
           <div className='close-report'>
             <ApButton
               primary wide danger style={{border: '0 solid'}}
-              onTap={s.closeReport}
+              onTap={s.closeReports}
               >
               通報をクローズする
             </ApButton>
@@ -101,8 +101,8 @@ let ControllerPanelArea = React.createClass({
     }
   },
 
-  closeReport () {
-    appUtil.closeReport()
+  closeReports () {
+    appUtil.closeReports()
   }
 })
 

@@ -5,19 +5,16 @@ import actions from '../actions'
 import co from 'co'
 import store from '../store'
 import appUtil from './app_util'
+import urls from './urls'
 
 const debug = require('debug')('hec:caller_manager')
-
-const {host, protocol} = window.location
-const CLOUD_URL = `${protocol}//${host}`
-const CALLER_URL = `${CLOUD_URL}/callers`
 
 /**
  * ブラウザロード時に呼び出され、接続されている actor について caller をつくる
  */
 function connectCallers () {
   return co(function * () {
-    let actors = yield hubAgent(CLOUD_URL).actors()
+    let actors = yield hubAgent(urls.origin()).actors()
     for (let actor of actors) {
       yield _connectCaller(actor.key)
     }
@@ -42,7 +39,8 @@ function observeActors () {
       }
       _connectCaller(actorKey)
     }, {
-      protocol, host
+      protocol: urls.protocol(),
+      host: urls.host()
     })
     yield observer.start()
     debug('Observer started')
@@ -63,7 +61,7 @@ function _connectCaller (key) {
     if (!existingConnection) {
       return
     }
-    let caller = sugoCaller(CALLER_URL, {})
+    let caller = sugoCaller(urls.callers(), {})
     let actor = yield caller.connect(key)
     let type = _moduleType(actor)
     switch (type) {
