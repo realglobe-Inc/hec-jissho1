@@ -46,6 +46,10 @@ export default {
     let interval = 600
     // TODO 情報画面の表示
     let state = store.getState()
+    let {infoDisplay} = state
+    if (!infoDisplay) {
+      store.dispatch(actions.toggleInfoDisplay())
+    }
     // 音
     let audio = document.createElement('audio')
     audio.src = 'warning.mp3'
