@@ -16,6 +16,7 @@ State shape is below.
   ]
   selectedMarkerKey: 'drone-01',
   dominantColor: '#5ff',
+  infoDisplay: true,
   map: {
     center: { lat, lng }
   },
@@ -39,8 +40,9 @@ State shape is below.
 */
 
 import { combineReducers } from 'redux'
-import markers from './markers'
 import dominantColor from './dominant_color'
+import infoDisplay from './info_display'
+import markers from './markers'
 import map from './map'
 import modalWindow from './modal_window'
 import selectedMarkerKey from './selected_marker_key'
@@ -49,8 +51,9 @@ import reportClosed from './report_closed'
 import warningDisplay from './warning_display'
 
 const Reducer = combineReducers({
-  markers,
   dominantColor,
+  infoDisplay,
+  markers,
   map,
   modalWindow,
   selectedMarkerKey,

@@ -1,5 +1,6 @@
 import dominantColor from './dominant_color'
 import changeMapCenter from './map'
+import infoDisplay from './info_display'
 import markers from './markers'
 import modalWindow from './modal_window'
 import toggleWarningDisplay from './warning_display'
@@ -9,6 +10,7 @@ import reportClosed from './report_closed'
 
 const actions = Object.assign(
   {},
+  infoDisplay,
   reports,
   reportClosed,
   markers,

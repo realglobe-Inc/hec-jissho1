@@ -1,5 +1,5 @@
 /**
- * Reducer of the state of display the Pong modal window.
+ * 警報画面の表示／非表示
  */
 const warningDisplay = (state = false, action) => {
   switch (action.type) {

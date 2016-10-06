@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import ControllerMap from '../containers/controller_map'
-import ControllerPanel from './controller_panel'
+import ControllerPanel from '../containers/controller_panel'
 
 const ControllerBody = React.createClass({
   render () {

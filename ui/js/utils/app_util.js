@@ -44,6 +44,8 @@ export default {
    */
   warnDisplay () {
     let interval = 600
+    // TODO 情報画面の表示
+    let state = store.getState()
     // 音
     let audio = document.createElement('audio')
     audio.src = 'warning.mp3'
@@ -83,12 +85,5 @@ export default {
       })
       return location
     })
-  },
-  /**
-   * スマホかどうか
-   */
-  isSmartPhone () {
-    let ua = navigator.userAgent
-    return ua.includes('iPhone') || ua.includes('iPad') || ua.includes('iPod') || ua.includes('Android')
   }
 }
