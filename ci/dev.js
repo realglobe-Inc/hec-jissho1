@@ -12,7 +12,7 @@ const { port } = require('../env')
 const ip = require('ip')
 const observe = require('../bin/observer.js')
 
-const HOST = ip.address()
+const HOST = process.env.HOST || ip.address()
 process.env.HUB_URL = `http://${HOST}:${port.SERVER}`
 
 function spawnWithEnv (command) {

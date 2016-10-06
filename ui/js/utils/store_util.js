@@ -12,7 +12,7 @@ export default {
   },
   getLatestReport (state) {
     // 末尾が最新
-    if (!this.hasReport(state)) {
+    if (!this.hasOpenReport(state)) {
       return null
     }
     let {reports} = state
@@ -20,13 +20,25 @@ export default {
   },
   getFirstReport (state) {
     // 先頭が最初
-    if (!this.hasReport(state)) {
+    if (!this.hasOpenReport(state)) {
       return null
     }
     let {reports} = state
     return reports[0]
   },
-  hasReport (state) {
+  hasOpenReport (state) {
     return state.reports.length > 0
+  },
+  // なし | Open | Closed
+  getReportStatus (state) {
+    let hasOpen = this.hasOpenReport(state)
+    if (hasOpen) {
+      return 'OPEN'
+    }
+    let {reportClosed} = state
+    if (reportClosed) {
+      return 'CLOSED'
+    }
+    return 'NO'
   }
 }

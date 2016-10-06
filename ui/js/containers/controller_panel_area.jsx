@@ -69,40 +69,57 @@ let ControllerPanelArea = React.createClass({
     const s = this
     let { storeState } = s.props
     // この実証実験では常に通報情報詳細を表示する
-    let has = storeUtil.hasReport(storeState)
-    if (!has) {
-      return (
-        <div><h4>通報はありません</h4></div>
-      )
-    } else {
-      let latest = storeUtil.getLatestReport(storeState)
-      let first = storeUtil.getFirstReport(storeState)
-      return (
-        <div className='area-report'>
-          <h4>通報あり</h4>
-          <div className='report-watch-wrapper'>
-            <div>
-              通報からの経過時間
+    let status = storeUtil.getReportStatus(storeState)
+    switch (status) {
+      case 'NO':
+        return (
+          <div><h4>通報はありません</h4></div>
+        )
+      case 'OPEN':
+      {
+        let latest = storeUtil.getLatestReport(storeState)
+        let first = storeUtil.getFirstReport(storeState)
+        return (
+          <div className='area-report'>
+            <h4>通報あり</h4>
+            <div className='report-watch-wrapper'>
+              <div>
+                通報からの経過時間
+              </div>
+              <ReportWatch start={first.date}/>
             </div>
-            <ReportWatch start={first.date}/>
-          </div>
-          <div className='info'>
-            心拍数: {latest.heartRate}
-          </div>
-          <div className='info'>
-            通報時刻: {appUtil.formatTime(first.date)}
-          </div>
+            <div className='info'>
+              心拍数: {latest.heartRate}
+            </div>
+            <div className='info'>
+              通報時刻: {appUtil.formatTime(first.date)}
+            </div>
 
-          <div className='close-report'>
-            <ApButton
-              primary wide danger style={{border: '0 solid'}}
-              onTap={s.showConfirmWindow}
-              >
-              通報をクローズする
-            </ApButton>
+            <div className='close-report'>
+              <ApButton
+                primary wide danger style={{border: '0 solid'}}
+                onTap={s.showConfirmWindow}
+                >
+                通報をクローズする
+              </ApButton>
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
+      case 'CLOSED':
+      {
+        let {reportClosed} = storeState
+        return (
+          <div className='area-report'>
+            <h4>通報（隊員到着済）</h4>
+            <div className='info'>
+              到着までの時間: {reportClosed.closeSeconds} 秒
+            </div>
+          </div>
+        )
+      }
+      default:
+        return null
     }
   },
 

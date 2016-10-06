@@ -15,8 +15,9 @@ export default {
    */
   closeReports () {
     // Store side
-    store.dispatch(actions.closeReports())
     store.dispatch(actions.removeMarker('report'))
+    store.dispatch(actions.setClosedReport())
+    store.dispatch(actions.clearReports())
     // Server side
     request({
       method: 'POST',

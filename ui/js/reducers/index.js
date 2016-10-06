@@ -33,7 +33,8 @@ State shape is below.
       lng: 139.76389
       reportId: "report-01"
     }
-  ]
+  ],
+  reportClosed: null or object
 }
 */
 
@@ -44,16 +45,17 @@ import map from './map'
 import modalWindow from './modal_window'
 import selectedMarkerKey from './selected_marker_key'
 import reports from './reports'
+import reportClosed from './report_closed'
 import warningDisplay from './warning_display'
 
 const Reducer = combineReducers({
-  // actors,
   markers,
   dominantColor,
   map,
   modalWindow,
   selectedMarkerKey,
   reports,
+  reportClosed,
   warningDisplay
 })
 

@@ -77,7 +77,6 @@ let ControllerMap = React.createClass({
   renderMarkers () {
     const s = this
     let {markers, selectedMarkerKey} = s.props.storeState
-    debug(markers)
     return markers.map((marker) =>
       <Marker markerKey={marker.key}
                 key={marker.key}
