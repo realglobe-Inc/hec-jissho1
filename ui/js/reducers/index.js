@@ -19,7 +19,9 @@ State shape is below.
   map: {
     center: { lat, lng }
   },
-  modal_window: false,
+  modal_window: {
+    'some-modal-key': false
+  },
   reports: [
     {
       date: Tue Sep 27 2016 14:43:07 GMT+0900 (JST)

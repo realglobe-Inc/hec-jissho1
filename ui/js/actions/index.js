@@ -10,10 +10,10 @@ const actions = Object.assign(
   {},
   reports,
   markers,
+  modalWindow,
   {
     changeMapCenter,
     dominantColor,
-    modalWindow,
     selectMarkerKey,
     toggleWarningDisplay
   }

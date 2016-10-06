@@ -1,10 +1,13 @@
 /**
  * Action of modal window.
  */
-const modalWindow = () => {
+const toggleModal = (key) => {
   return {
-    type: 'TOGGLE_MODAL_DISPLAY'
+    type: 'TOGGLE_MODAL_DISPLAY',
+    key
   }
 }
 
-export default modalWindow
+export default {
+  toggleModal
+}

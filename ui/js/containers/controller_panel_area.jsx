@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { PropTypes as types } from 'react'
 import {connect} from 'react-redux'
 import storeUtil from '../utils/store_util'
 import appUtil from '../utils/app_util'
 import {ApButton} from 'apeman-react-button'
+import actions from '../actions'
 
 const debug = require('debug')('hec:ControllerPanelArea')
 
 const ReportWatch = React.createClass({
+  propTypes: {
+    start: types.object
+  },
   getInitialState () {
     return {
       /* start からの経過秒数 */
@@ -43,7 +47,8 @@ const ReportWatch = React.createClass({
 
 let ControllerPanelArea = React.createClass({
   propTypes: {
-    storeState: React.PropTypes.object
+    storeState: types.object,
+    dispatch: types.func
   },
 
   render () {
@@ -91,7 +96,7 @@ let ControllerPanelArea = React.createClass({
           <div className='close-report'>
             <ApButton
               primary wide danger style={{border: '0 solid'}}
-              onTap={s.closeReports}
+              onTap={s.showConfirmWindow}
               >
               通報をクローズする
             </ApButton>
@@ -101,13 +106,17 @@ let ControllerPanelArea = React.createClass({
     }
   },
 
-  closeReports () {
-    appUtil.closeReports()
+  /**
+   * 通報クローズの確認画面
+   */
+  showConfirmWindow () {
+    this.props.dispatch(actions.toggleModal('confirmClosingReports'))
   }
 })
 
 const mapStateToProps = (storeState) => ({ storeState })
+const mapDispatchToProps = (dispatch) => ({ dispatch })
 
-ControllerPanelArea = connect(mapStateToProps)(ControllerPanelArea)
+ControllerPanelArea = connect(mapStateToProps, mapDispatchToProps)(ControllerPanelArea)
 
 export default ControllerPanelArea
