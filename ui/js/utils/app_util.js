@@ -35,6 +35,9 @@ export default {
    * Date のインスタンスをいい感じにフォーマットした文字列にして返す
    */
   formatTime (date) {
+    if (typeof date === 'string') {
+      date = new Date(date)
+    }
     let padding = number => ('0' + number).slice(-2)
     let hours = padding(date.getHours())
     let minutes = padding(date.getMinutes())

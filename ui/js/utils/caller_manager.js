@@ -7,7 +7,7 @@ import store from '../store'
 import appUtil from './app_util'
 import urls from './urls'
 import assert from 'assert'
-import { MARKER_TYPE, HITOE_EVENT, OBSERVER_EVENT, MARKER_NAME, HITOE_MODULE_NAME } from '../constants'
+import { MARKER_TYPE, HITOE_EVENT, OBSERVER_EVENT, MARKER_NAME, HITOE_MODULE_NAME, HITOE_ACTORKEY_PREFIX } from '../constants'
 
 const debug = require('debug')('hec:caller_manager')
 
@@ -87,8 +87,7 @@ function _handleOberver ({data, event}) {
   // こんな感じのときに捕捉する
   // spec は許可された Module のみ。
   // { event: 'actor:update', data: { key: 'qq:hitoe:01', spec: { hitoe: [Object] } } }
-  let shouldIgnore = !((event === OBSERVER_EVENT.ACTOR_CONNECT && ALLOWED_MODULES.includes(Object.keys(data.spec)[0])) ||
-                        event === OBSERVER_EVENT.ACTOR_TEARDOWN)
+  let shouldIgnore = _shouldIgnore({data, event})
   if (shouldIgnore) {
     return
   }
@@ -100,8 +99,25 @@ function _handleOberver ({data, event}) {
 
   // 切断時
   if (event === OBSERVER_EVENT.ACTOR_TEARDOWN) {
+    // FIXME うまく接続が切れていない
     disconnectCaller(data.key)
   }
+}
+
+function _shouldIgnore ({event, data}) {
+  if (typeof data.key !== 'string') {
+    return true
+  }
+  if (!data.key.startsWith(HITOE_ACTORKEY_PREFIX)) {
+    return true
+  }
+  if (event === OBSERVER_EVENT.ACTOR_TEARDOWN) {
+    return false
+  }
+  if (event === OBSERVER_EVENT.ACTOR_CONNECT && ALLOWED_MODULES.includes(Object.keys(data.spec)[0])) {
+    return false
+  }
+  return true
 }
 
 function _moduleType (caller) {
@@ -133,9 +149,9 @@ function _initializeHitoe (key, caller) {
       if (isFirst) {
         store.dispatch(actions.addMarker({
           key,
-          location, // 確認、 marker に heartRate, date は不必要だよね？
+          location,
           type: MARKER_TYPE.REPORT,
-          name: MARKER_NAME.REPORTER,
+          name: MARKER_NAME.REPORTER + '@' + appUtil.formatTime(report.date),
           dynamic: false
         }))
         appUtil.warnDisplay()

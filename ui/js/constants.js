@@ -1,4 +1,5 @@
 module.exports = {
+  /* Marker 関係 */
   MARKER_TYPE: {
     DEFAULT: 1,
     DRONE: 2,
@@ -6,8 +7,10 @@ module.exports = {
     PERSON: 4
   },
   MARKER_NAME: {
-    REPORTER: '通報者'
+    REPORTER: '通報'
   },
+
+  /* Hitoe 関係 */
   HITOE_MODULE_NAME: 'hitoe',
   HITOE_EVENT: {
     EMERGENCY: 'emergency',
@@ -18,6 +21,8 @@ module.exports = {
     ACTOR_CONNECT: 'actor:update',
     ACTOR_TEARDOWN: 'actor:teardown'
   },
+
+  /* その他 */
   MODAL: {
     CONFIRM_CLOSE: 1
   }

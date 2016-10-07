@@ -67,6 +67,7 @@ Object.assign(store, {
     let {reports} = state
     for (let actorKey of Object.keys(reports)) {
       let latest = storeUtil.getLatestReport({state, actorKey})
+      let first = storeUtil.getFirstReport({state, actorKey})
       if (latest) {
         // marker の key は reportId
         let location = {lat: latest.lat, lng: latest.lng}
@@ -74,7 +75,7 @@ Object.assign(store, {
         this.dispatch(actions.addMarker({
           key: latest.actorKey,
           type: MARKER_TYPE.REPORT,
-          name: MARKER_NAME.REPORTER,
+          name: MARKER_NAME.REPORTER + '@' + appUtil.formatTime(first.date),
           dynamic: false,
           location
         }))
