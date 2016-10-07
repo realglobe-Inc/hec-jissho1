@@ -24,6 +24,11 @@ function ReportModel () {
   })
 
   let model = sequelize.define('report', {
+    /* SUGO-Actor key */
+    actor_key: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     /* 通報 ID */
     report_id: {
       type: Sequelize.STRING,
