@@ -143,7 +143,7 @@ function _initializeHitoe (key, caller) {
         debug('Report marker moving')
         store.dispatch(actions.moveMarker({key, location}))
       }
-      store.dispatch(actions.addReport({key, report}))
+      store.dispatch(actions.addReport({report, event: HITOE_EVENT.EMERGENCY, actorKey: key}))
     })
   })
 }

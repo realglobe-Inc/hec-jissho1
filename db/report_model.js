@@ -49,7 +49,7 @@ function ReportModel () {
       type: Sequelize.STRING
     },
     /* 心拍数 */
-    heartRate: {
+    heart_rate: {
       type: Sequelize.INTEGER
     },
     /* 通報のあった日時 ISO 文字列 */

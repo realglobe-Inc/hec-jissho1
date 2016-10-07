@@ -1,7 +1,7 @@
 const co = require('co')
 const bRequest = require('browser-request')
-const camelcase = require('camelcase')
 const urls = require('../utils/urls')
+const { formatDbToUI, formatRawToUI } = require('../../../lib/common_func')
 
 // --- Private functions ---
 
@@ -15,30 +15,13 @@ function _request (url) {
   })
 }
 
-function _isDate (str) {
-  // 2016-09-27T05:43:07.000Z
-  return /\d+-\d+-\d+T\d+:\d+:\d+\.\d+Z/.test(str)
-}
-
-function _translate (report) {
-  let translated = {}
-  let keys = Object.keys(report)
-  for (let key of keys) {
-    let value = report[key]
-    translated[camelcase(key)] = _isDate(value)
-      ? new Date(value)
-      : value
-  }
-  return translated
-}
-
 // --- Actions ---
 
 const fetchAllReports = () => (dispatch, getState) => co(function * () {
   let reportArray = yield _request(urls.openReports()) // 単純な配列
   // actorKey を key としたオブジェクトに。
   let reports = reportArray.reduce((obj, repo) => {
-    let report = _translate(repo)
+    let report = formatDbToUI(repo)
     let {actorKey} = report
     if (obj[actorKey]) {
       obj[actorKey].push(report)
@@ -57,12 +40,11 @@ const fetchAllReports = () => (dispatch, getState) => co(function * () {
   })
 })
 
-const addReport = ({key, report: repo}) => {
-  let report = _translate(repo)
-  report.actorKey = key
+const addReport = ({report, actorKey, event}) => {
+  let data = formatRawToUI({report, actorKey, event})
   return {
     type: 'ADD_REPORT',
-    report
+    report: data
   }
 }
 
