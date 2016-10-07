@@ -6,6 +6,7 @@
 const co = require('co')
 const { exec } = require('child_process')
 const ReportModel = require('../db/report_model')
+const OpenReportModel = require('../db/open_report_model')
 const { db } = require('../env')
 const {
   DB_DOCKER_CONTAINER_NAME
@@ -20,7 +21,12 @@ co(function * () {
   })
 
   let Report = ReportModel()
-
   let reports = yield Report.findAll()
+  console.log('--- report ----')
   console.log(reports.map((data) => data.dataValues))
+
+  let OpenReport = OpenReportModel()
+  let opens = yield OpenReport.findAll()
+  console.log('--- open report ---')
+  console.log(opens.map((data) => data.dataValues))
 }).catch((err) => { console.error(err) })

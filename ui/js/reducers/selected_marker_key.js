@@ -1,7 +1,7 @@
 /**
  * Reducer of selected spot
  */
-const selectedMarkerKey = (state = null, action) => {
+const selectedMarkerKey = (state = '', action) => {
   switch (action.type) {
     case 'SELECT_ACTOR_KEY':
       return action.key

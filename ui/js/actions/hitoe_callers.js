@@ -2,11 +2,11 @@
  * caller の接続・切断処理は別のところでする
  */
 
-const addHitoeCaller = ({key, hitoe}) => {
+const addHitoeCaller = ({key, caller}) => {
   return {
     type: 'ADD_HITOE_CALLER',
     key,
-    hitoe
+    caller
   }
 }
 

@@ -1,3 +1,4 @@
+const assert = require('assert')
 /**
  * Store util functions
  */
@@ -10,35 +11,28 @@ export default {
     let marker = state.markers.find(marker => key === marker.key) || null
     return marker
   },
-  getLatestReport (state) {
+  getLatestReport ({state, actorKey}) {
     // 末尾が最新
-    if (!this.hasOpenReport(state)) {
+    assert.ok(state, 'getLatestReport in store_util.js')
+    if (!this.hasOpenReport({state, actorKey})) {
       return null
     }
     let {reports} = state
-    return reports[reports.length - 1]
+    let reportList = reports[actorKey]
+    return reportList[reportList.length - 1]
   },
-  getFirstReport (state) {
+  getFirstReport ({state, actorKey}) {
+    assert.ok(state, 'getFirstReport in store_util.js')
     // 先頭が最初
-    if (!this.hasOpenReport(state)) {
+    if (!this.hasOpenReport({state, actorKey})) {
       return null
     }
     let {reports} = state
-    return reports[0]
+    let reportList = reports[actorKey]
+    return reportList[0]
   },
-  hasOpenReport (state) {
-    return state.reports.length > 0
-  },
-  // なし | Open | Closed
-  getReportStatus (state) {
-    let hasOpen = this.hasOpenReport(state)
-    if (hasOpen) {
-      return 'OPEN'
-    }
-    let {reportClosed} = state
-    if (reportClosed) {
-      return 'CLOSED'
-    }
-    return 'NO'
+  hasOpenReport ({state, actorKey}) {
+    assert.ok(state, 'hasOpenReport in store_util.js')
+    return state.reports[actorKey] && state.reports[actorKey].length > 0
   }
 }

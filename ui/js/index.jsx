@@ -8,8 +8,6 @@ import actions from './actions'
 import store from './store'
 import callerManager from './utils/caller_manager'
 import auth from './auth'
-// TODO 消す
-import util from './utils/app_util'
 
 const debug = require('debug')('sg:site:index')
 co(function * () {

@@ -1,8 +1,10 @@
 /**
  * Reducer of the state of display the Pong modal window.
  */
+const {MODAL} = require('../constants')
+
 let initialState = {
-  confirmClosingReports: false
+  [MODAL.CONFIRM_CLOSE]: false
 }
 const modalWindow = (state = initialState, {type, key}) => {
   switch (type) {

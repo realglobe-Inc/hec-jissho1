@@ -4,6 +4,7 @@ import c from 'classnames'
 import {ApButton} from 'apeman-react-button'
 import actions from '../actions'
 import appUtil from '../utils/app_util'
+import {MODAL} from '../constants'
 
 const debug = require('debug')('hec:ConfirmCloseReportWindow')
 
@@ -30,19 +31,23 @@ let ConfirmCloseReportWindow = React.createClass({
   },
 
   yes () {
-    appUtil.closeReports()
-    this.props.dispatch(actions.toggleModal('confirmClosingReports'))
+    const s = this
+    let actorKey = s.props.selectedMarkerKey
+    appUtil.closeReport(actorKey)
+    this.props.dispatch(actions.toggleModal(MODAL.CONFIRM_CLOSE))
   },
 
   no () {
-    this.props.dispatch(actions.toggleModal('confirmClosingReports'))
+    this.props.dispatch(actions.toggleModal(MODAL.CONFIRM_CLOSE))
   }
 })
 
 const mapStateToProps = (state, ownProp) => {
-  let display = state.modalWindow.confirmClosingReports
+  let display = state.modalWindow[MODAL.CONFIRM_CLOSE]
+  let {selectedMarkerKey} = state
   return {
-    display
+    display,
+    selectedMarkerKey
   }
 }
 

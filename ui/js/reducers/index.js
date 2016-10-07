@@ -4,7 +4,7 @@ State shape is below.
 {
   markers [
     {
-      key: 'drone-01',
+      key: 'drone-01', // marker の key は actor の場合は actorKey
       type: 'drone',
       name: 'Drone 01',
       location: {
@@ -23,18 +23,19 @@ State shape is below.
   modal_window: {
     'some-modal-key': false
   },
-  reports: [
-    {
-      date: Tue Sep 27 2016 14:43:07 GMT+0900 (JST)
-      deviceId: "hitoe-01"
-      deviceName: "Android"
-      id: 1
-      info: "調子が悪い"
-      lat: 35.71054
-      lng: 139.76389
-      reportId: "report-01"
-    }
-  ],
+  reports: {
+    [actorKey]: [
+      {
+        date: Tue Sep 27 2016 14:43:07 GMT+0900 (JST)
+        id: 1
+        lat: 35.71054
+        lng: 139.76389
+        heartRate: 60,
+        reportId: "report-01",
+        actorKey: 'qq:hitoe:01'
+      }
+    ]
+  },
   reportClosed: null or object
 }
 */

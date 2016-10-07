@@ -6,22 +6,25 @@ import actions from '../actions'
 import co from 'co'
 import request from 'browser-request'
 import urls from './urls'
+import callerManager from './caller_manager'
 
 const debug = require('debug')('hec:app_util')
 
 export default {
   /**
-   * すべての通報をクローズする
+   * 通報をクローズする
    */
-  closeReports () {
+  closeReport (actorKey) {
+    // Caller
+    callerManager.disconnectCaller(actorKey)
     // Store side
-    store.dispatch(actions.removeMarker('report'))
-    store.dispatch(actions.setClosedReport())
-    store.dispatch(actions.clearReports())
+    store.dispatch(actions.removeMarker(actorKey))
+    store.dispatch(actions.setClosedReport(actorKey))
+    store.dispatch(actions.clearReports(actorKey))
     // Server side
     request({
       method: 'POST',
-      url: urls.closeReports()
+      url: urls.closeReport(actorKey)
     }, (err, resp, body) => {
       if (err) {
         console.error(err)
@@ -44,7 +47,7 @@ export default {
    */
   warnDisplay () {
     let interval = 600
-    // TODO 情報画面の表示
+    // 情報画面の表示
     let state = store.getState()
     let {infoDisplay} = state
     if (!infoDisplay) {

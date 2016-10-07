@@ -5,6 +5,7 @@ import Reducer from './reducers'
 import storeUtil from './utils/store_util'
 import actions from './actions'
 import appUtil from './utils/app_util'
+import { MARKER_TYPE, MARKER_NAME } from './constants'
 
 const debug = require('debug')('hec:store')
 const middlewares = [thunkMiddleware]
@@ -30,7 +31,7 @@ Object.assign(store, {
         .then((location) => {
           this.dispatch(actions.addMarker({
             key: 'you',
-            type: 'person',
+            type: MARKER_TYPE.PERSON,
             name: 'YOU',
             dynamic: true,
             location
@@ -53,7 +54,7 @@ Object.assign(store, {
     // 本部
     this.dispatch(actions.addMarker({
       key: 'center',
-      type: 'center',
+      type: MARKER_TYPE.DEFAULT,
       name: '本部',
       dynamic: true,
       location: {
@@ -63,17 +64,21 @@ Object.assign(store, {
     }))
     // 最新の通報を地図上に表示する
     let state = this.getState()
-    let latest = storeUtil.getLatestReport(state)
-    if (latest) {
-      // marker の key は reportId
-      let location = {lat: latest.lat, lng: latest.lng}
-      this.dispatch(actions.addMarker({
-        key: 'report',
-        type: 'report',
-        name: '通報者',
-        dynamic: false,
-        location
-      }))
+    let {reports} = state
+    for (let actorKey of Object.keys(reports)) {
+      let latest = storeUtil.getLatestReport({state, actorKey})
+      if (latest) {
+        // marker の key は reportId
+        let location = {lat: latest.lat, lng: latest.lng}
+        debug(latest.actorKey)
+        this.dispatch(actions.addMarker({
+          key: latest.actorKey,
+          type: MARKER_TYPE.REPORT,
+          name: MARKER_NAME.REPORTER,
+          dynamic: false,
+          location
+        }))
+      }
     }
   }
 })

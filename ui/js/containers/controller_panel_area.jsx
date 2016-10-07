@@ -4,6 +4,7 @@ import storeUtil from '../utils/store_util'
 import appUtil from '../utils/app_util'
 import {ApButton} from 'apeman-react-button'
 import actions from '../actions'
+import {HITOE_ACTORKEY_PREFIX, MODAL} from '../constants'
 
 const debug = require('debug')('hec:ControllerPanelArea')
 
@@ -59,75 +60,62 @@ let ControllerPanelArea = React.createClass({
           通報情報
         </div>
         <div className='content'>
-          {s.renderReportContent()}
+          {s.renderSelectedReport()}
         </div>
       </div>
     )
   },
 
-  renderReportContent () {
+  renderSelectedReport () {
     const s = this
-    let { storeState } = s.props
-    // この実証実験では常に通報情報詳細を表示する
-    let status = storeUtil.getReportStatus(storeState)
-    switch (status) {
-      case 'NO':
-        return (
-          <div><h4>通報はありません</h4></div>
-        )
-      case 'OPEN':
-      {
-        let latest = storeUtil.getLatestReport(storeState)
-        let first = storeUtil.getFirstReport(storeState)
-        return (
-          <div className='area-report'>
-            <h4>通報あり</h4>
-            <div className='report-watch-wrapper'>
-              <div>
-                通報からの経過時間
-              </div>
-              <ReportWatch start={first.date}/>
-            </div>
-            <div className='info'>
-              心拍数: {latest.heartRate}
-            </div>
-            <div className='info'>
-              通報時刻: {appUtil.formatTime(first.date)}
-            </div>
-
-            <div className='close-report'>
-              <ApButton
-                primary wide danger style={{border: '0 solid'}}
-                onTap={s.showConfirmWindow}
-                >
-                通報をクローズする
-              </ApButton>
-            </div>
-          </div>
-        )
-      }
-      case 'CLOSED':
-      {
-        let {reportClosed} = storeState
-        return (
-          <div className='area-report'>
-            <h4>通報（隊員到着済）</h4>
-            <div className='info'>
-              到着までの時間: {reportClosed.closeSeconds} 秒
-            </div>
-          </div>
-        )
-      }
-      default:
-        return null
+    let state = s.props.storeState
+    let { selectedMarkerKey } = state
+    let isReportSelected = selectedMarkerKey.startsWith(HITOE_ACTORKEY_PREFIX)
+    if (!isReportSelected) {
+      return <div><h4>通報が選択されていません</h4></div>
     }
+    let actorKey = selectedMarkerKey
+    let has = storeUtil.hasOpenReport({state, actorKey})
+    if (!has) {
+      return (
+        <div><h4>通報はありません</h4></div>
+      )
+    }
+    let latest = storeUtil.getLatestReport({state, actorKey})
+    let first = storeUtil.getFirstReport({state, actorKey})
+    return (
+      <div className='area-report'>
+        <h4>通報あり</h4>
+        <div className='report-watch-wrapper'>
+          <div>
+            通報からの経過時間
+          </div>
+          <ReportWatch start={first.date}/>
+        </div>
+        <div className='info'>
+          心拍数: {latest.heartRate}
+        </div>
+        <div className='info'>
+          通報時刻: {appUtil.formatTime(first.date)}
+        </div>
+
+        <div className='close-report'>
+          <ApButton
+            primary wide danger style={{border: '0 solid'}}
+            onTap={s.showConfirmWindow}
+            >
+            通報をクローズする
+          </ApButton>
+        </div>
+      </div>
+    )
   },
 
   /**
    * 通報クローズの確認画面
    */
   showConfirmWindow () {
-    this.props.dispatch(actions.toggleModal('confirmClosingReports'))
+    this.props.dispatch(actions.toggleModal(MODAL.CONFIRM_CLOSE))
   }
 })
 

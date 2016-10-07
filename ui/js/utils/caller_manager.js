@@ -6,6 +6,8 @@ import co from 'co'
 import store from '../store'
 import appUtil from './app_util'
 import urls from './urls'
+import assert from 'assert'
+import { MARKER_TYPE, HITOE_EVENT, OBSERVER_EVENT, MARKER_NAME, HITOE_MODULE_NAME } from '../constants'
 
 const debug = require('debug')('hec:caller_manager')
 
@@ -16,7 +18,7 @@ function connectCallers () {
   return co(function * () {
     let actors = yield hubAgent(urls.origin()).actors()
     for (let actor of actors) {
-      yield _connectCaller(actor.key)
+      yield connectCaller(actor.key)
     }
   })
 }
@@ -26,19 +28,7 @@ function connectCallers () {
  */
 function observeActors () {
   return co(function * () {
-    let observer = sugoObserver(({data, event}) => {
-      // こんな感じのときに捕捉する
-      // spec は許可された Module のみ。
-      // { event: 'actor:update', data: { key: 'qq:hitoe:01', spec: { hitoe: [Object] } } }
-      let actorKey = data.key
-      let allowedModules = ['hitoe']
-      let shouldConnect = event === 'actor:update' &&
-                          allowedModules.includes(Object.keys(data.spec)[0])
-      if (!shouldConnect) {
-        return
-      }
-      _connectCaller(actorKey)
-    }, {
+    let observer = sugoObserver(_handleOberver, {
       protocol: urls.protocol(),
       host: urls.host()
     })
@@ -47,40 +37,76 @@ function observeActors () {
   })
 }
 
-export default {
-  connectCallers,
-  observeActors
-}
-
-// --- Private functions ---
-
-function _connectCaller (key) {
+function connectCaller (key) {
   return co(function * () {
-    debug('Detected actor: ', key)
-    let existingConnection = !~store.getState().markers.findIndex(marker => marker.key === key)
-    if (!existingConnection) {
+    // hitoe caller しかいない前提
+    let callerExists = !!store.getState().hitoeCallers[key]
+    if (callerExists) {
       return
     }
-    let caller = sugoCaller(urls.callers(), {})
-    let actor = yield caller.connect(key)
-    let type = _moduleType(actor)
+    let Caller = sugoCaller(urls.callers(), {})
+    let caller = yield Caller.connect(key)
+    let type = _moduleType(caller)
     switch (type) {
-      case 'hitoe':
+      case HITOE_MODULE_NAME:
         {
-          let hitoe = actor.get('hitoe')
-          yield _initializeHitoe(key, hitoe)
+          yield _initializeHitoe(key, caller)
         }
         return
       default:
         // unknown
     }
-  })
+  }).catch((err) => console.error(err))
 }
 
-function _moduleType (actor) {
-  let moduleNames = ['hitoe']
-  for (let name of moduleNames) {
-    let has = actor.has(name)
+function disconnectCaller (key) {
+  return co(function * () {
+    let caller = store.getState().hitoeCallers[key]
+    if (!caller) {
+      debug('Cannot detect caller')
+      return
+    }
+    store.dispatch(actions.removeHitoeCaller(key))
+    yield caller.disconnect(key)
+  }).catch((err) => console.error(err))
+}
+
+export default {
+  connectCallers,
+  observeActors,
+  connectCaller,
+  disconnectCaller
+}
+
+// --- Private functions ---
+
+// const ALLOWED_EVENTS = [OBSERVER_EVENT.ACTOR_CONNECT, OBSERVER_EVENT.ACTOR_TEARDOWN]
+const ALLOWED_MODULES = [HITOE_MODULE_NAME]
+
+function _handleOberver ({data, event}) {
+  // こんな感じのときに捕捉する
+  // spec は許可された Module のみ。
+  // { event: 'actor:update', data: { key: 'qq:hitoe:01', spec: { hitoe: [Object] } } }
+  let shouldIgnore = !((event === OBSERVER_EVENT.ACTOR_CONNECT && ALLOWED_MODULES.includes(Object.keys(data.spec)[0])) ||
+                        event === OBSERVER_EVENT.ACTOR_TEARDOWN)
+  if (shouldIgnore) {
+    return
+  }
+  debug(event, data.key)
+  // 接続時
+  if (event === OBSERVER_EVENT.ACTOR_CONNECT) {
+    connectCaller(data.key)
+  }
+
+  // 切断時
+  if (event === OBSERVER_EVENT.ACTOR_TEARDOWN) {
+    disconnectCaller(data.key)
+  }
+}
+
+function _moduleType (caller) {
+  for (let name of ALLOWED_MODULES) {
+    let has = caller.has(name)
     if (has) {
       return name
     }
@@ -88,38 +114,36 @@ function _moduleType (actor) {
   return 'unknown'
 }
 
-function _initializeHitoe (key, hitoe) {
+function _initializeHitoe (key, caller) {
   return co(function * () {
-    if (!hitoe) {
-      throw new Error('Cannot get hitoe module.')
-    }
+    store.dispatch(actions.addHitoeCaller({
+      key,
+      caller
+    }))
     // emergency イベントのときに通報とする
-    hitoe.on('emergency', (report) => {
+    let hitoe = caller.get(HITOE_MODULE_NAME)
+    hitoe.on(HITOE_EVENT.EMERGENCY, (report) => {
+      // ここに飛んでくる report は生データ
       debug('Recieved report: ', report)
       let [lat, lng] = report.location
       let location = {lat, lng}
-      let {heartRate, date} = report
       let storeState = store.getState()
-      if (storeState.reports.length === 0) {
+      assert.ok(storeState)
+      let isFirst = !storeState.reports[key]
+      if (isFirst) {
         store.dispatch(actions.addMarker({
-          key: 'report',
-          location,
-          heartRate,
-          date: new Date(date),
-          type: 'report',
-          name: '通報者',
-          dynamic: false
-        }))
-        store.dispatch(actions.addHitoeCaller({
           key,
-          hitoe
+          location, // 確認、 marker に heartRate, date は不必要だよね？
+          type: MARKER_TYPE.REPORT,
+          name: MARKER_NAME.REPORTER,
+          dynamic: false
         }))
         appUtil.warnDisplay()
       } else {
         debug('Report marker moving')
-        store.dispatch(actions.moveMarker({key: 'report', location}))
+        store.dispatch(actions.moveMarker({key, location}))
       }
-      store.dispatch(actions.addReport(report))
+      store.dispatch(actions.addReport({key, report}))
     })
   })
 }

@@ -3,7 +3,7 @@ const hitoeCallers = (state = {}, action) => {
     case 'ADD_HITOE_CALLER':
       {
         let next = Object.assign({
-          [action.key]: action.hitoe
+          [action.key]: action.caller
         }, state)
         return next
       }

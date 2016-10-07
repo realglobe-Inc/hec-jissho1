@@ -44,12 +44,19 @@ co(function * () {
           })
         }
       },
-      /* すべての通報をクローズする */
-      ['/close_report']: {
+      /* 通報をクローズする */
+      ['/close_report/:actorkey']: {
         POST: (ctx) => co(function * () {
+          let {actorkey} = ctx.params
           let OpenReport = OpenReportModel()
-          yield OpenReport.destroy({ truncate: true })
-          debug('Destroyed open_report')
+          yield OpenReport.destroy({
+            where: {
+              report_id: {
+                $like: `${actorkey}%`
+              }
+            }
+          })
+          debug(`Destroyed open_report ${actorkey}`)
           ctx.body = 'ok'
         })
       }

@@ -20,8 +20,8 @@ module.exports = {
   /**
    * 通報をクローズする
    */
-  closeReports () {
-    return `${ORIGIN_URL}/close_report`
+  closeReport (actorKey) {
+    return `${ORIGIN_URL}/close_report/${actorKey}`
   },
   /**
    * SUGO Caller

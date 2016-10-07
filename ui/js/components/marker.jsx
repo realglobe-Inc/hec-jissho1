@@ -3,7 +3,10 @@
  */
 import React, { PropTypes as types } from 'react'
 import c from 'classnames'
+import { MARKER_TYPE } from '../constants'
+
 const debug = require('debug')('hec:components:marker_marker')
+const {DRONE, REPORT} = MARKER_TYPE
 
 let Marker = React.createClass({
   propTypes: {
@@ -12,7 +15,7 @@ let Marker = React.createClass({
     selected: types.bool,
     direction: types.number,
     dynamic: types.bool,
-    type: types.string
+    type: types.number
   },
 
   render () {
@@ -33,9 +36,9 @@ let Marker = React.createClass({
 
   getIcon (type) {
     switch (type) {
-      case 'drone':
+      case DRONE:
         return 'fa-arrow-circle-right'
-      case 'report':
+      case REPORT:
         return 'fa-times'
       default:
         return 'fa-circle'
