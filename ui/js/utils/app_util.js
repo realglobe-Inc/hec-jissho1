@@ -117,8 +117,9 @@ export default {
           return
         }
         // Like this, '日本, 〒101-0061 東京都千代田区三崎町２丁目２０−４ 八木ビル'
+        // Format '千代田区三崎町２丁目２０−４'
         let fullAddress = body.results[0].formatted_address
-        let address = fullAddress.split(' ')[2]
+        let address = fullAddress.split(' ')[2].replace(/.+?[県都府道]/, '')
         resolve(address)
       })
     })
