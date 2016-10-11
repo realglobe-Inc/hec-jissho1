@@ -47,8 +47,7 @@ co(function * () {
         }
       },
       /* 通報をクローズする */
-      // TODO パス変更対応（UI）
-      ['/close_report/']: {
+      ['/close_report']: {
         POST: (ctx) => co(function * () {
           debug(ctx.request.body)
           let {actor_key, closed_date} = ctx.request.body
@@ -79,7 +78,7 @@ co(function * () {
               report_id
             }
           })
-          yield ClosedReport = ClosedReportModel().create({
+          yield ClosedReportModel().create({
             report_id,
             closed_date
           })

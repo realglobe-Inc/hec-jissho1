@@ -15,6 +15,7 @@ export default {
    * 通報をクローズする
    */
   closeReport (actorKey) {
+    let closedDate = new Date()
     // Caller
     callerManager.disconnectCaller(actorKey)
     // Store side
@@ -24,7 +25,12 @@ export default {
     // Server side
     request({
       method: 'POST',
-      url: urls.closeReport(actorKey)
+      url: urls.closeReport(),
+      json: true,
+      body: JSON.stringify({
+        actor_key: actorKey,
+        closed_date: closedDate.toISOString()
+      })
     }, (err, resp, body) => {
       if (err) {
         console.error(err)
