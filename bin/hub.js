@@ -21,7 +21,7 @@ co(function * () {
     public: [ 'public' ],
     endpoints: {
       /* クローズされていない通報情報 */
-      ['/reports']: {
+      ['/api/reports']: {
         GET: (ctx) => {
           return co(function * () {
             let OpenReport = OpenReportModel()
@@ -47,7 +47,7 @@ co(function * () {
         }
       },
       /* 通報をクローズする */
-      ['/close_report']: {
+      ['/api/close_report']: {
         POST: (ctx) => co(function * () {
           debug(ctx.request.body)
           let {actor_key, closed_date} = ctx.request.body

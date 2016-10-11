@@ -15,13 +15,13 @@ module.exports = {
    * クローズされていない通報情報
    */
   openReports () {
-    return `${ORIGIN_URL}/reports`
+    return `${ORIGIN_URL}/api/reports`
   },
   /**
    * 通報をクローズする
    */
   closeReport () {
-    return `${ORIGIN_URL}/close_report`
+    return `${ORIGIN_URL}/api/close_report`
   },
   /**
    * SUGO Caller

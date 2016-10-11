@@ -1,15 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import co from 'co'
-import App from './components/app'
+import App from '../components/app'
 import { Provider } from 'react-redux'
-import { color } from '../config'
-import actions from './actions'
-import store from './store'
-import callerManager from './utils/caller_manager'
-import auth from './auth'
+import { color } from '../../config'
+import actions from '../actions'
+import store from '../store'
+import callerManager from '../utils/caller_manager'
+import auth from '../auth'
 
-const debug = require('debug')('sg:site:index')
+const debug = require('debug')('sg:site:entry')
+
 co(function * () {
   debug(`NODE_ENV = ${process.env.NODE_ENV}`)
 
