@@ -13,10 +13,39 @@ const ReportsList = React.createClass({
     }
   },
   render () {
-    let {reports} = this.state
+    const s = this
     return (
       <div className='reports-list-wrapper'>
         <h2 className='title'>対応済み通報一覧</h2>
+        {s.renderTable()}
+      </div>
+    )
+  },
+
+  componentWillMount () {
+    const s = this
+    request({
+      method: 'GET',
+      url: urls.closedReports(),
+      json: true
+    }, (err, resp, body) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      s.setState({
+        reports: body
+      })
+    })
+  },
+
+  renderTable () {
+    const s = this
+    let {reports} = s.state
+    if (reports.length === 0) {
+      return <div className='no-report'>通報はありません</div>
+    } else {
+      return (
         <table className='report-list'>
           <thead>
             <tr>
@@ -42,25 +71,8 @@ const ReportsList = React.createClass({
             })}
           </tbody>
         </table>
-      </div>
-    )
-  },
-
-  componentWillMount () {
-    const s = this
-    request({
-      method: 'GET',
-      url: urls.closedReports(),
-      json: true
-    }, (err, resp, body) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      s.setState({
-        reports: body
-      })
-    })
+      )
+    }
   }
 })
 

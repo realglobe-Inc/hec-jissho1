@@ -154,6 +154,8 @@ function _initializeHitoe (key, caller) {
           name: MARKER_NAME.REPORTER + '@' + appUtil.formatTime(report.date),
           dynamic: false
         }))
+        store.dispatch(actions.selectMarkerKey(key))
+        store.dispatch(actions.changeMapCenter(location))
         appUtil.warnDisplay()
       } else {
         debug('Report marker moving')

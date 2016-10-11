@@ -72,7 +72,7 @@ let ControllerPanelArea = React.createClass({
     let { selectedMarkerKey } = state
     let isReportSelected = selectedMarkerKey.startsWith(HITOE_ACTORKEY_PREFIX)
     if (!isReportSelected) {
-      return <div><h4>通報が選択されていません</h4></div>
+      return <div></div>
     }
     let actorKey = selectedMarkerKey
     let has = storeUtil.hasOpenReport({state, actorKey})
@@ -85,7 +85,7 @@ let ControllerPanelArea = React.createClass({
     let first = storeUtil.getFirstReport({state, actorKey})
     return (
       <div className='area-report'>
-        <h4>通報あり</h4>
+        <h4>通報</h4>
         <div className='report-watch-wrapper'>
           <div>
             通報からの経過時間
