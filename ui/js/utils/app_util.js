@@ -101,5 +101,26 @@ export default {
       })
       return location
     })
+  },
+  /**
+   * 緯度経度から住所を取得する
+   */
+  getAddress ({lat, lng}) {
+    return new Promise((resolve, reject) => {
+      request({
+        method: 'GET',
+        url: urls.geocode({lat, lng}),
+        json: true
+      }, (err, resp, body) => {
+        if (err) {
+          reject(err)
+          return
+        }
+        // Like this, '日本, 〒101-0061 東京都千代田区三崎町２丁目２０−４ 八木ビル'
+        let fullAddress = body.results[0].formatted_address
+        let address = fullAddress.split(' ')[2]
+        resolve(address)
+      })
+    })
   }
 }

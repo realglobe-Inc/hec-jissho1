@@ -1,3 +1,4 @@
+const {apiKey} = require('../../config')
 let {protocol, host} = window.location
 const ORIGIN_URL = `${protocol}//${host}`
 
@@ -34,5 +35,11 @@ module.exports = {
    */
   callers () {
     return `${ORIGIN_URL}/callers`
+  },
+  /**
+   * Google geocode API (reverse)
+   */
+  geocode ({lat, lng}) {
+    return `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}&language=ja`
   }
 }

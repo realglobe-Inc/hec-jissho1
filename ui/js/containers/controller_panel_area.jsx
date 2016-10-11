@@ -81,11 +81,15 @@ let ControllerPanelArea = React.createClass({
         <div><h4>通報はありません</h4></div>
       )
     }
+    let marker = storeUtil.getSelectedMarker(state)
     let latest = storeUtil.getLatestReport({state, actorKey})
     let first = storeUtil.getFirstReport({state, actorKey})
     return (
       <div className='area-report'>
         <h4>通報</h4>
+        <div className='info'>
+          住所: {marker ? marker.address : ''}
+        </div>
         <div className='report-watch-wrapper'>
           <div>
             通報からの経過時間

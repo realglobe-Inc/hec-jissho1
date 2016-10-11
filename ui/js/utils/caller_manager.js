@@ -147,13 +147,20 @@ function _initializeHitoe (key, caller) {
       assert.ok(storeState)
       let isFirst = !storeState.reports[key]
       if (isFirst) {
-        store.dispatch(actions.addMarker({
-          key,
-          location,
-          type: MARKER_TYPE.REPORT,
-          name: MARKER_NAME.REPORTER + '@' + appUtil.formatTime(report.date),
-          dynamic: false
-        }))
+        appUtil.getAddress(location)
+          .catch((e) => {
+            return '詳細不明'
+          })
+          .then((address) => {
+            store.dispatch(actions.addMarker({
+              key,
+              location,
+              address,
+              type: MARKER_TYPE.REPORT,
+              name: MARKER_NAME.REPORTER + '@' + appUtil.formatTime(report.date),
+              dynamic: false
+            }))
+          })
         store.dispatch(actions.selectMarkerKey(key))
         store.dispatch(actions.changeMapCenter(location))
         appUtil.warnDisplay()

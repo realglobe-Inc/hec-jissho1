@@ -72,13 +72,20 @@ Object.assign(store, {
         // marker の key は reportId
         let location = {lat: latest.lat, lng: latest.lng}
         debug(latest.actorKey)
-        this.dispatch(actions.addMarker({
-          key: latest.actorKey,
-          type: MARKER_TYPE.REPORT,
-          name: MARKER_NAME.REPORTER + '@' + appUtil.formatTime(first.date),
-          dynamic: false,
-          location
-        }))
+        appUtil.getAddress(location)
+          .catch((e) => {
+            return '詳細不明'
+          })
+          .then((address) => {
+            this.dispatch(actions.addMarker({
+              key: latest.actorKey,
+              location,
+              address,
+              type: MARKER_TYPE.REPORT,
+              name: MARKER_NAME.REPORTER + '@' + appUtil.formatTime(first.date),
+              dynamic: false
+            }))
+          })
       }
     }
   }
