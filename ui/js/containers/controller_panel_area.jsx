@@ -86,21 +86,38 @@ let ControllerPanelArea = React.createClass({
     let first = storeUtil.getFirstReport({state, actorKey})
     return (
       <div className='area-report'>
-        <h4>通報</h4>
+        <h4>{marker ? marker.name : '通報'}</h4>
         <div className='info'>
-          住所: {marker ? marker.address : ''}
+          <div className='name'>
+            住所
+          </div>
+          <div className='value'>
+            {marker ? marker.address : ''}
+          </div>
         </div>
-        <div className='report-watch-wrapper'>
-          <div>
+        <div className='info'>
+          <div className='name'>
             通報からの経過時間
           </div>
-          <ReportWatch start={first.date}/>
+          <div className='value'>
+            <ReportWatch start={first.date}/>
+          </div>
         </div>
         <div className='info'>
-          心拍数: {latest.heartRate}
+          <div className='name'>
+            通報時刻
+          </div>
+          <div className='value'>
+            {appUtil.formatTime(first.date)}
+          </div>
         </div>
         <div className='info'>
-          通報時刻: {appUtil.formatTime(first.date)}
+          <div className='name'>
+            心拍数
+          </div>
+          <div className='value'>
+            {latest.heartRate}
+          </div>
         </div>
 
         <div className='close-report'>

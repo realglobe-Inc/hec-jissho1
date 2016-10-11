@@ -111,16 +111,17 @@ $panel-width: 400px;
   h4 {
     color: $warning-color;
   }
-  .report-watch-wrapper {
-    margin: 20px 0;
-    .report-watch {
-      margin: 20px 0;
-      color: $warning-color;
-      text-align: center;
-    }
-  }
   .info {
-    margin: 20px 0;
+    margin: 30px 0;
+    .name {
+      color: $app-dark-color;
+      border-bottom: 1px solid rgba($app-dark-color, 0.3);
+      padding-bottom: 6px;
+    }
+    .value {
+      margin: 10px 0;
+      text-align: right;
+    }
   }
 }
 
