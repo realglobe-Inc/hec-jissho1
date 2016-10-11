@@ -2,25 +2,3 @@
 @import "partials/variables";
 @import "partials/color";
 @import "partials/header";
-@import "partials/controller";
-@import "partials/report";
-@import "partials/modals";
-@import "partials/warning";
-@import "partials/controller-panel";
-
-#site {
-  height: 100%;
-}
-
-.app {
-  position: relative;
-  height: 100%;
-}
-
-.hidden {
-  visibility: hidden;
-}
-
-.visible {
-  visibility: visible;
-}

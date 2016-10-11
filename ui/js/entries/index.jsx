@@ -8,15 +8,14 @@ const debug = require('debug')('sg:site:entry')
 
 const App = (props) => {
   return (
-    <div>
+    <div className='app'>
       <Header/>
-      <div className='top-body'>
-        hogehoge
-        <div>
-        <a href='reports.html'>reports</a>
+      <div className='menu-wrapper'>
+        <div className='menu-button'>
+        <a href='system.html'>システム画面</a>
         </div>
-        <div>
-        <a href='system.html'>system</a>
+        <div className='menu-button'>
+        <a href='reports.html'>対応済み通報一覧</a>
         </div>
       </div>
     </div>

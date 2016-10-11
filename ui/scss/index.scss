@@ -2,25 +2,36 @@
 @import "partials/variables";
 @import "partials/color";
 @import "partials/header";
-@import "partials/controller";
-@import "partials/report";
-@import "partials/modals";
-@import "partials/warning";
-@import "partials/controller-panel";
 
-#site {
-  height: 100%;
+.menu-wrapper {
+  width: 100%;
+  height: calc(100% - #{$header-height});
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.app {
-  position: relative;
-  height: 100%;
+.menu-button {
+  cursor: pointer;
+  width: 400px;
+  text-align: center;
+  width: 400px;
+  text-align: center;
+  margin: 20px;
+  background: $app-color;
+  padding: 20px;
+  font-size: 40px;
+  a {
+    text-decoration: none;
+    color: white;
+  }
 }
 
-.hidden {
-  visibility: hidden;
+.menu-button:hover {
+  background-color: lighten($app-color, 5%);
 }
 
-.visible {
-  visibility: visible;
+.menu-button:active {
+  background-color: lighten($app-color, 10%);
 }
