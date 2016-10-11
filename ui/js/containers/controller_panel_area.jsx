@@ -120,14 +120,20 @@ let ControllerPanelArea = React.createClass({
           </div>
         </div>
 
-        <div className='close-report'>
-          <ApButton
-            primary wide danger style={{border: '0 solid'}}
-            onTap={s.showConfirmWindow}
-            >
-            通報をクローズする
-          </ApButton>
-        </div>
+        {s.renderCloseButton()}
+      </div>
+    )
+  },
+
+  renderCloseButton () {
+    return (
+      <div className='close-report'>
+        <ApButton
+          primary wide danger style={{border: '0 solid'}}
+          onTap={this.showConfirmWindow}
+          >
+          通報をクローズする
+        </ApButton>
       </div>
     )
   },

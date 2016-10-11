@@ -14,6 +14,9 @@ const App = (props) => {
       <div className='body'>
         <ReportsList/>
       </div>
+      <div className='back-to-top'>
+        <a href='/'>TOP に戻る</a>
+      </div>
     </div>
   )
 }

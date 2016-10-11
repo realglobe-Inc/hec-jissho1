@@ -6,6 +6,7 @@ import storeUtil from './utils/store_util'
 import actions from './actions'
 import appUtil from './utils/app_util'
 import { MARKER_TYPE, MARKER_NAME } from './constants'
+import { mapCenter } from '../config'
 
 const debug = require('debug')('hec:store')
 const middlewares = [thunkMiddleware]
@@ -57,10 +58,7 @@ Object.assign(store, {
       type: MARKER_TYPE.DEFAULT,
       name: '本部',
       dynamic: true,
-      location: {
-        lat: 35.701562,
-        lng: 139.753148
-      }
+      location: mapCenter
     }))
     // 最新の通報を地図上に表示する
     let state = this.getState()

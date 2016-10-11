@@ -36,3 +36,13 @@
     padding: 10px;
   }
 }
+
+.back-to-top {
+  width: 100%;
+  text-align: center;
+  margin: 30px 0;
+  font-size: 1.5em;
+  a {
+    color: $app-color;
+  }
+}

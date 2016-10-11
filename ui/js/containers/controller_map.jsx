@@ -7,7 +7,7 @@ import actions from '../actions'
 import GoogleMap from 'google-map-react'
 import Marker from '../components/marker'
 import co from 'co'
-import { apiKey } from '../../config'
+import { apiKey, color } from '../../config'
 
 const debug = require('debug')('hec:ControllerMap')
 
@@ -47,19 +47,12 @@ let ControllerMap = React.createClass({
     return {
       styles: [
         {
+          featureType: 'all',
           stylers: [
-            { hue: '#CDDC39' },
-            { saturation: -20 }
+            { saturation: 40 }
           ]
         }, {
-          featureType: 'road',
-          elementType: 'geometry',
-          stylers: [
-            { lightness: 100 },
-            { visibility: 'simplified' }
-          ]
-        }, {
-          featureType: 'road',
+          featureType: 'poi',
           elementType: 'labels',
           stylers: [
             { visibility: 'off' }

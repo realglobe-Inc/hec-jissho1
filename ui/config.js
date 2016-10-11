@@ -5,11 +5,14 @@
  */
 'use strict'
 
-const { nameColorizer } = require('apemancolor/lib/colorizers')
-let color = nameColorizer('#3A8')('hec-jissho1')
-
 module.exports = {
-  color, // rgba(50, 169, 123, 1)
+  /* テーマカラー */
+  color: '#32a954',
+  /* Google Map API Key */
   apiKey: 'AIzaSyBiVMLPxmXQU7B4I3Txb1zffguybZ7HLD0',
-  mapCenter: {lat: 35.701667, lng: 139.753160}
+  /* 地図の中心かつ救急センターの位置 */
+  mapCenter: {
+    lat: 35.701562,
+    lng: 139.753148
+  }
 }
