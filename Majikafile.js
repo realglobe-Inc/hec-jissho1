@@ -19,10 +19,14 @@ module.exports = {
       },
       DEBUG: {
         value: 'sg:*'
+      },
+      HEROKU: {
+        value: 'true'
       }
     },
     addons: [
-      'heroku-redis:hobby-dev'
+      'heroku-redis:hobby-dev',
+      'cleardb:ignite'
     ]
   }
 }
