@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
-process.env.DEBUG = 'sg:*'
+process.env.DEBUG = 'sg:*,socket.io:*'
 process.chdir(`${__dirname}/..`)
 
 const co = require('co')
@@ -21,7 +21,7 @@ function spawnWithEnv (command) {
     stdio: 'inherit',
     env: Object.assign({}, process.env, {
       NODE_ENV: 'development',
-      DEBUG: 'sg:*,hec:*',
+      DEBUG: process.env.DEBUG,
       HOSTNAME: `${HOST}:${port.SERVER}`,
       HUB_URL: `http://${HOST}:${port.SERVER}`
     })
