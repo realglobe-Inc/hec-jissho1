@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 const sugoHub = require('sugo-hub')
+const logger = require('koa-logger')()
 const ReportModel = require('../db/report_model')
 const OpenReportModel = require('../db/open_report_model')
+const ClosedReportModel = require('../db/closed_report_model')
 const co = require('co')
 const env = require('../env')
 
@@ -45,23 +47,52 @@ co(function * () {
         }
       },
       /* 通報をクローズする */
-      ['/close_report/:actorkey']: {
+      // TODO パス変更対応（UI）
+      ['/close_report/']: {
         POST: (ctx) => co(function * () {
-          let {actorkey} = ctx.params
+          debug(ctx.request.body)
+          let {actor_key, closed_date} = ctx.request.body
+          if (!actor_key || !closed_date) {
+            let message = `Invalid body. actor_key: ${actor_key}, closed_date: ${closed_date}`
+            debug(message)
+            ctx.status = 400
+            ctx.body = {
+              success: false,
+              message
+            }
+            return
+          }
+          // actorKey から report_id を復元する
+          // 一つの actorKey に対しオープンな通報は高々一つであるように実装されている
           let OpenReport = OpenReportModel()
-          yield OpenReport.destroy({
+          let reportData = yield OpenReport.findOne({
             where: {
               report_id: {
-                $like: `${actorkey}%`
+                $like: `${actor_key}%`
               }
             }
           })
-          debug(`Destroyed open_report ${actorkey}`)
-          ctx.body = 'ok'
+          let {report_id} = reportData.dataValues
+          // DB 操作
+          yield OpenReport.destroy({
+            where: {
+              report_id
+            }
+          })
+          yield ClosedReport = ClosedReportModel().create({
+            report_id,
+            closed_date
+          })
+          ctx.body = {
+            success: true,
+            report_id
+          }
         })
       }
     },
-    middlewares: [],
+    middlewares: [
+      logger
+    ],
     storage: {
       redis: {
         url: env.redis.URL,

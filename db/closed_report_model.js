@@ -1,16 +1,15 @@
 /**
- * クローズされていない通報の通報 ID
- * bin/observer が最初に通報を受け取ったときにテーブルに入れる。
- * ブラウザ側から通報をクローズするとデータが消される
+ * クローズされた通報
+ * クローズされるまでの時間がわかるように。
  */
 const Sequelize = require('sequelize')
 const { db } = require('../env')
 const { DB_URL } = db
-const debug = require('debug')('sg:db:OpenReport')
+const debug = require('debug')('sg:db:ClosedReport')
 
 const { HEROKU } = process.env
 
-function OpenReportModel () {
+function ClosedReportModel () {
   let sequelize = new Sequelize(DB_URL, {
     dialect: 'mysql',
     pool: {
@@ -23,11 +22,16 @@ function OpenReportModel () {
     }
   })
 
-  let model = sequelize.define('open_report', {
+  let model = sequelize.define('closed_report', {
     /* 通報 ID */
     report_id: {
       type: Sequelize.STRING,
-      unique: true
+      allowNull: false
+    },
+    /* 通報がクローズされた日時 ISO 文字列 */
+    closed_date: {
+      type: Sequelize.STRING,
+      allowNull: false
     }
   }, {
     freezeTableName: true
@@ -36,4 +40,4 @@ function OpenReportModel () {
   return model
 }
 
-module.exports = OpenReportModel
+module.exports = ClosedReportModel

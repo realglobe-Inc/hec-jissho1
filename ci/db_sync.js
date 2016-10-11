@@ -7,6 +7,7 @@ const co = require('co')
 const { exec } = require('child_process')
 const ReportModel = require('../db/report_model')
 const OpenReportModel = require('../db/open_report_model')
+const ClosedReportModel = require('../db/closed_report_model')
 const { db } = require('../env')
 const {
   DB_DOCKER_CONTAINER_NAME
@@ -27,6 +28,10 @@ co(function * () {
 
   let OpenReport = OpenReportModel()
   yield OpenReport.sync({ force: true })
+
+  let ClosedReport = ClosedReportModel()
+  yield ClosedReport.sync({ force: true })
+
   // Mock データ
   // yield Report.create({
   //   device_id: 'android-01',
