@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom'
 import co from 'co'
 import auth from '../auth'
 import Header from '../components/header'
+import ReportsList from '../components/reports_list'
 
 const debug = require('debug')('sg:site:entry')
 
 const App = (props) => {
   return (
-    <div>
+    <div className='app'>
       <Header/>
-      <div className='top-body'>
-        reports
+      <div className='body'>
+        <ReportsList/>
       </div>
     </div>
   )

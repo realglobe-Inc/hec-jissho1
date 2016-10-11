@@ -18,6 +18,12 @@ module.exports = {
     return `${ORIGIN_URL}/api/reports`
   },
   /**
+   * クローズされた通報情報
+   */
+  closedReports () {
+    return `${ORIGIN_URL}/api/closed_reports`
+  },
+  /**
    * 通報をクローズする
    */
   closeReport () {

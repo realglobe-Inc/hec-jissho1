@@ -46,6 +46,16 @@ co(function * () {
           })
         }
       },
+      /* クローズされた通報情報 */
+      ['/api/closed_reports']: {
+        GET: (ctx) => {
+          return co(function * () {
+            let ClosedReport = ClosedReportModel()
+            let reports = yield ClosedReport.findAll()
+            ctx.body = reports
+          })
+        }
+      },
       /* 通報をクローズする */
       ['/api/close_report']: {
         POST: (ctx) => co(function * () {
