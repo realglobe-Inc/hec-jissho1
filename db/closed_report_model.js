@@ -28,9 +28,14 @@ function ClosedReportModel () {
       type: Sequelize.STRING,
       allowNull: false
     },
-    /* 通報がクローズされた日時 ISO 文字列 */
+    /* 最初の通報があった日時 */
+    first_report_date: {
+      type: Sequelize.DATE,
+      allowNull: false
+    },
+    /* 通報がクローズされた日時 */
     closed_date: {
-      type: Sequelize.STRING,
+      type: Sequelize.DATE,
       allowNull: false
     }
   }, {

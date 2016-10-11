@@ -73,14 +73,22 @@ co(function * () {
           })
           let {report_id} = reportData.dataValues
           // DB 操作
+          let firstReport = yield ReportModel().findOne({
+            where: {
+              report_id,
+              event: 'emergency'
+            },
+            order: 'createdAt'
+          })
+          yield ClosedReportModel().create({
+            report_id,
+            first_report_date: new Date(firstReport.dataValues.date),
+            closed_date: new Date(closed_date)
+          })
           yield OpenReport.destroy({
             where: {
               report_id
             }
-          })
-          yield ClosedReportModel().create({
-            report_id,
-            closed_date
           })
           ctx.body = {
             success: true,
