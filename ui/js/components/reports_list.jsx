@@ -62,7 +62,7 @@ const ReportsList = React.createClass({
               let timeScore = Math.floor((closedDate - firstReportDate) / 1000)
               return (
                 <tr key={i}>
-                  <td>{report.report_id}</td>
+                  <td>{report.report_full_id}</td>
                   <td>{firstReportDate.toLocaleString()}</td>
                   <td>{closedDate.toLocaleString()}</td>
                   <td>{timeScore} 秒</td>

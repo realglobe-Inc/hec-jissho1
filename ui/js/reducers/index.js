@@ -31,8 +31,9 @@ State shape is below.
         lat: 35.71054
         lng: 139.76389
         heartRate: 60,
-        reportId: "report-01",
-        actorKey: 'qq:hitoe:01'
+        reportId: 1,
+        actorKey: 'qq:hitoe:01',
+        reportFullId: 'qq:hitoe:01#1'
       }
     ]
   },

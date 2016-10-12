@@ -23,12 +23,9 @@ const fetchAllReports = () => (dispatch, getState) => co(function * () {
   let reports = reportArray.reduce((obj, repo) => {
     let report = formatDbToUI(repo)
     let {actorKey} = report
-    if (obj[actorKey]) {
-      obj[actorKey].push(report)
-      return obj
-    } else {
-      return Object.assign(obj, { [actorKey]: [report] })
-    }
+    obj[actorKey] = obj[actorKey] || []
+    obj[actorKey].push(report)
+    return obj
   }, {})
   // sort
   for (let key of Object.keys(reports)) {

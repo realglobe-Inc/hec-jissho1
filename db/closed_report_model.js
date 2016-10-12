@@ -31,12 +31,12 @@ function ClosedReportModel () {
     },
     /* Actor key */
     actor_key: {
-      type: Sequelize.NUMBER,
+      type: Sequelize.STRING,
       allowNull: false
     },
     /* 通報 ID */
     report_id: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       allowNull: false
     },
     /* 最初の通報があった日時 */

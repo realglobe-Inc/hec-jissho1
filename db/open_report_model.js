@@ -36,7 +36,7 @@ function OpenReportModel () {
     },
     /* 通報 ID */
     report_id: {
-      type: Sequelize.NUMBER
+      type: Sequelize.INTEGER
     }
   }, {
     freezeTableName: true

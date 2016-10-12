@@ -74,11 +74,12 @@ co(function * () {
           }
           // Open な通報の full ID を取得
           let OpenReport = OpenReportModel()
-          let fullIds = OpenReport.findAll({
+          let opens = yield OpenReport.findAll({
             where: {
               actor_key
             }
           })
+          let fullIds = opens.map((report) => report.report_full_id)
           let Report = ReportModel()
           let ClosedReport = ClosedReportModel()
           for (let report_full_id of fullIds) {
@@ -87,7 +88,7 @@ co(function * () {
                 report_full_id,
                 event: 'emergency'
               },
-              order: 'createAt'
+              order: 'createdAt'
             })
             yield ClosedReport.create({
               report_full_id,
