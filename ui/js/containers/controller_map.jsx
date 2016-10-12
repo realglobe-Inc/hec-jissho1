@@ -2,21 +2,16 @@
  * Controller Map
  */
 import React, {PropTypes as types} from 'react'
-import {connect} from 'react-redux'
+import reactUtil from '../utils/react_util'
 import actions from '../actions'
 import GoogleMap from 'google-map-react'
 import Marker from '../components/marker'
 import co from 'co'
-import { apiKey, color } from '../../config'
+import { apiKey } from '../../config'
 
 const debug = require('debug')('hec:ControllerMap')
 
-let ControllerMap = React.createClass({
-  propTypes: {
-    dispatch: types.func,
-    storeState: types.object
-  },
-
+const ControllerMap = reactUtil.createReduxClass({
   getInitialState () {
     return {}
   },
@@ -24,7 +19,7 @@ let ControllerMap = React.createClass({
   render () {
     const s = this
     let {props, state} = s
-    let {dispatch, storeState} = props
+    let {storeState} = props
     let {map} = storeState
     let mapHeight = window.innerHeight - 50 // header-height = 50px
     return (
@@ -34,7 +29,7 @@ let ControllerMap = React.createClass({
                    defaultZoom={17}
                    bootstrapURLKeys={{key: apiKey}}
                    onChildClick={s.onMarkerClick}
-                   onChange={s.dispatchChangeMapCenter}
+                   onChange={s.changeCenter}
                    >
           {state.destination}
           {s.renderMarkers()}
@@ -43,6 +38,9 @@ let ControllerMap = React.createClass({
     )
   },
 
+  /**
+   * Google Map のオプション。ここでスタイルを設定する。
+   */
   createMapOptions () {
     return {
       styles: [
@@ -62,7 +60,7 @@ let ControllerMap = React.createClass({
     }
   },
 
-  dispatchChangeMapCenter ({center}) {
+  changeCenter ({center}) {
     const s = this
     s.props.dispatch(actions.changeMapCenter(center))
   },
@@ -90,11 +88,5 @@ let ControllerMap = React.createClass({
     })
   }
 })
-
-const mapStateToProps = (storeState) => ({ storeState })
-
-const mapDispatchToProps = (dispatch) => ({ dispatch })
-
-ControllerMap = connect(mapStateToProps, mapDispatchToProps)(ControllerMap)
 
 export default ControllerMap

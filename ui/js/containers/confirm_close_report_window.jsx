@@ -1,5 +1,5 @@
 import React, {PropTypes as types} from 'react'
-import {connect} from 'react-redux'
+import reactUtil from '../utils/react_util'
 import c from 'classnames'
 import {ApButton} from 'apeman-react-button'
 import actions from '../actions'
@@ -8,13 +8,10 @@ import {MODAL} from '../constants'
 
 const debug = require('debug')('hec:ConfirmCloseReportWindow')
 
-let ConfirmCloseReportWindow = React.createClass({
-  propTypes: {
-    dispatch: types.func
-  },
+const ConfirmCloseReportWindow = reactUtil.createReduxClass({
   render () {
     const s = this
-    let {display} = s.props
+    let display = s.props.storeState.modalWindow[MODAL.CONFIRM_CLOSE]
     return (
       <div className={c('modal-window-background', display ? '' : 'hidden')}>
         <div className='confirm-close-report'>
@@ -32,27 +29,19 @@ let ConfirmCloseReportWindow = React.createClass({
 
   yes () {
     const s = this
-    let actorKey = s.props.selectedMarkerKey
+    let actorKey = s.props.storeState.selectedMarkerKey
     appUtil.closeReport(actorKey)
-    this.props.dispatch(actions.toggleModal(MODAL.CONFIRM_CLOSE))
+    s.closeSelf()
   },
 
   no () {
+    const s = this
+    s.closeSelf()
+  },
+
+  closeSelf () {
     this.props.dispatch(actions.toggleModal(MODAL.CONFIRM_CLOSE))
   }
 })
-
-const mapStateToProps = (state, ownProp) => {
-  let display = state.modalWindow[MODAL.CONFIRM_CLOSE]
-  let {selectedMarkerKey} = state
-  return {
-    display,
-    selectedMarkerKey
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({ dispatch })
-
-ConfirmCloseReportWindow = connect(mapStateToProps, mapDispatchToProps)(ConfirmCloseReportWindow)
 
 export default ConfirmCloseReportWindow

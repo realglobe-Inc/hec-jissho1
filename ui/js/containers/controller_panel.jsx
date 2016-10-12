@@ -2,7 +2,7 @@
  * Controller panel
  */
 import React, {PropTypes as types} from 'react'
-import {connect} from 'react-redux'
+import reactUtil from '../utils/react_util'
 import ControllerPanelArea from '../containers/controller_panel_area'
 import ControllerPanelSelect from '../containers/controller_panel_select'
 import actions from '../actions'
@@ -10,11 +10,7 @@ import c from 'classnames'
 
 const debug = require('debug')('hec:ControllerPanel')
 
-let ControllerPanel = React.createClass({
-  propTypes: {
-    dispatch: types.func,
-    storeState: types.object
-  },
+const ControllerPanel = reactUtil.createReduxClass({
   render () {
     const s = this
     let display = s.props.storeState.infoDisplay
@@ -37,10 +33,5 @@ let ControllerPanel = React.createClass({
     this.props.dispatch(actions.toggleInfoDisplay())
   }
 })
-
-const mapStateToProps = (storeState) => ({ storeState })
-const mapDispatchToProps = (dispatch) => ({ dispatch })
-
-ControllerPanel = connect(mapStateToProps, mapDispatchToProps)(ControllerPanel)
 
 export default ControllerPanel

@@ -1,14 +1,13 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import reactUtil from '../utils/react_util'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 const debug = require('debug')('hec:WarningDisplay')
 
-let WarningDisplay = React.createClass({
+const WarningDisplay = reactUtil.createReduxClass({
   render () {
     const s = this
-    let {warningDisplay} = s.props
-    debug(warningDisplay)
+    let {warningDisplay} = s.props.storeState
     let item = warningDisplay ? s.displayElement() : []
     return (
       <ReactCSSTransitionGroup
@@ -29,14 +28,5 @@ let WarningDisplay = React.createClass({
     )
   }
 })
-
-const mapStateToProps = (state, ownProp) => {
-  let {warningDisplay} = state
-  return {
-    warningDisplay
-  }
-}
-
-WarningDisplay = connect(mapStateToProps)(WarningDisplay)
 
 export default WarningDisplay

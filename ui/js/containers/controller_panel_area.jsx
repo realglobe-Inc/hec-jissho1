@@ -1,5 +1,5 @@
 import React, { PropTypes as types } from 'react'
-import {connect} from 'react-redux'
+import reactUtil from '../utils/react_util'
 import storeUtil from '../utils/store_util'
 import appUtil from '../utils/app_util'
 import {ApButton} from 'apeman-react-button'
@@ -10,14 +10,17 @@ const debug = require('debug')('hec:ControllerPanelArea')
 
 const ReportWatch = React.createClass({
   propTypes: {
+    /* 最初の通報時刻。 Date オブジェクト */
     start: types.object
   },
+
   getInitialState () {
     return {
       /* start からの経過秒数 */
       ms: new Date() - this.props.start
     }
   },
+
   render () {
     const s = this
     let {ms} = s.state
@@ -33,6 +36,9 @@ const ReportWatch = React.createClass({
       </div>
     )
   },
+
+  timer: null,
+
   componentDidMount () {
     const s = this
     s.timer = setInterval(() => {
@@ -46,12 +52,7 @@ const ReportWatch = React.createClass({
   }
 })
 
-let ControllerPanelArea = React.createClass({
-  propTypes: {
-    storeState: types.object,
-    dispatch: types.func
-  },
-
+const ControllerPanelArea = reactUtil.createReduxClass({
   render () {
     const s = this
     return (
@@ -145,10 +146,5 @@ let ControllerPanelArea = React.createClass({
     this.props.dispatch(actions.toggleModal(MODAL.CONFIRM_CLOSE))
   }
 })
-
-const mapStateToProps = (storeState) => ({ storeState })
-const mapDispatchToProps = (dispatch) => ({ dispatch })
-
-ControllerPanelArea = connect(mapStateToProps, mapDispatchToProps)(ControllerPanelArea)
 
 export default ControllerPanelArea

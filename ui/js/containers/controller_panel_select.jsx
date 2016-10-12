@@ -1,15 +1,10 @@
 import React, { PropTypes as types } from 'react'
-import { connect } from 'react-redux'
+import reactUtil from '../utils/react_util'
 import actions from '../actions'
 
 const debug = require('debug')('hec:controller-panel-select')
 
-let ControllerPanelSelect = React.createClass({
-  propTypes: {
-    dispatch: types.func,
-    storeState: types.object
-  },
-
+const ControllerPanelSelect = reactUtil.createReduxClass({
   render () {
     const s = this
     let {props} = s
@@ -40,13 +35,5 @@ let ControllerPanelSelect = React.createClass({
     dispatch(actions.changeMapCenter(marker.location))
   }
 })
-
-const mapStateToProps = (storeState) => ({ storeState })
-const mapDispatchToProps = (dispatch) => ({ dispatch })
-
-ControllerPanelSelect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ControllerPanelSelect)
 
 export default ControllerPanelSelect
