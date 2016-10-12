@@ -116,7 +116,7 @@ const ControllerPanelArea = reactUtil.createReduxClass({
             通報時刻
           </div>
           <div className='value'>
-            {appUtil.formatTime(first.date)}
+            {appUtil.formatTime(first.date, { type: 'jp' })}
           </div>
         </div>
         <div className='info'>

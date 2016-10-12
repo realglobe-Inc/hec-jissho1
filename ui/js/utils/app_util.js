@@ -41,7 +41,7 @@ export default {
   /**
    * Date のインスタンスをいい感じにフォーマットした文字列にして返す
    */
-  formatTime (date) {
+  formatTime (date, option = {}) {
     if (typeof date === 'string') {
       date = new Date(date)
     }
@@ -49,8 +49,13 @@ export default {
     let hours = padding(date.getHours())
     let minutes = padding(date.getMinutes())
     let seconds = padding(date.getSeconds())
-    let timeStr = `${hours}:${minutes}:${seconds}`
-    return timeStr
+    switch (option.type) {
+      case 'jp':
+        return `${hours}時 ${minutes}分 ${seconds}秒`
+      case 'simple':
+      default:
+        return `${hours}:${minutes}:${seconds}`
+    }
   },
   /**
    * 画面に警告の効果
