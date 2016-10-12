@@ -73,13 +73,20 @@ const ControllerPanelArea = reactUtil.createReduxClass({
     let { selectedMarkerKey } = state
     let isReportSelected = selectedMarkerKey.startsWith(HITOE_ACTORKEY_PREFIX)
     if (!isReportSelected) {
-      return <div></div>
+      return (
+        <div className='area-no-select'>
+          <div>通報が来ると情報が表示されます</div>
+        </div>
+      )
     }
     let actorKey = selectedMarkerKey
     let has = storeUtil.hasOpenReport({state, actorKey})
     if (!has) {
       return (
-        <div><h4>通報はありません</h4></div>
+        <div className='area-no-report'>
+          <h4>通報はありません</h4>
+          <div><a href='/reports.html'>対応済み通報一覧</a></div>
+        </div>
       )
     }
     let marker = storeUtil.getSelectedMarker(state)

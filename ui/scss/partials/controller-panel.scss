@@ -114,6 +114,14 @@ $panel-width: 400px;
   }
 }
 
+.area-no-select {
+  color: #888;
+  text-align: center;
+  div {
+    margin: 24px 0;
+  }
+}
+
 .area-report {
   font-size: 24px;
   h4 {
@@ -130,6 +138,13 @@ $panel-width: 400px;
       margin: 10px 0;
       text-align: right;
     }
+  }
+}
+
+.area-no-report {
+  text-align: center;
+  a {
+    color: $app-color;
   }
 }
 
