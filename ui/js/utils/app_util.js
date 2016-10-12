@@ -7,6 +7,7 @@ import co from 'co'
 import request from 'browser-request'
 import urls from './urls'
 import callerManager from './caller_manager'
+import {MODAL} from '../constants'
 
 const debug = require('debug')('hec:app_util')
 
@@ -55,23 +56,27 @@ export default {
    * 画面に警告の効果
    */
   warnDisplay () {
-    let interval = 600
-    // 情報画面の表示
     let state = store.getState()
+    let shouldSkip = state.warningDisplay.nowWarning
+    if (shouldSkip) {
+      return
+    }
+    // 情報画面の表示
     let {infoDisplay} = state
     if (!infoDisplay) {
       store.dispatch(actions.toggleInfoDisplay())
     }
     // 音
+    // TODO loop
     let audio = document.createElement('audio')
     audio.src = 'warning.mp3'
     audio.autoplay = true
-    // 画面
-    for (let i = 0; i < 4; i++) {
-      setTimeout(() => {
-        store.dispatch(actions.toggleWarningDisplay())
-      }, i * interval)
-    }
+    const warningFunc = setInterval(() => {
+      debug('toggle warning')
+      store.dispatch(actions.toggleWarningDisplay())
+    }, 600)
+    store.dispatch(actions.startWarning(warningFunc))
+    store.dispatch(actions.toggleModal(MODAL.OK_WARNING))
   },
   /**
    * 自分の位置情報を {lat, lng} で取得する

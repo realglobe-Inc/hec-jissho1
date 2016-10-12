@@ -24,6 +24,7 @@ module.exports = {
 
   /* その他 */
   MODAL: {
-    CONFIRM_CLOSE: 1
+    CONFIRM_CLOSE: 1,
+    OK_WARNING: 2
   }
 }

@@ -13,6 +13,20 @@
   align-items: center;
 }
 
+.modal-window-background-nobg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 110;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .confirm-close-report {
   width: 500px;
   height: 180px;
@@ -31,4 +45,8 @@
     width: 400px;
     margin: auto;
   }
+}
+
+.red {
+  color: red;
 }
