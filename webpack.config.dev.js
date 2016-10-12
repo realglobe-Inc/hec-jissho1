@@ -4,6 +4,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const autoprefixer = require('autoprefixer')
+const jsonImporter = require('node-sass-json-importer')
 
 const entries = [
   'index',
@@ -78,6 +79,9 @@ function config (options = {}) {
           loader: ExtractTextPlugin.extract('style-loader', [ 'css-loader', 'postcss-loader', 'sass-loader' ])
         }
       ]
+    },
+    sassLoader: {
+      importer: jsonImporter
     },
     postcss () {
       return [ autoprefixer ]

@@ -8,6 +8,7 @@ import GoogleMap from 'google-map-react'
 import Marker from '../components/marker'
 import co from 'co'
 import { apiKey } from '../../config'
+import cssVars from '../../scss/vars.json'
 
 const debug = require('debug')('hec:ControllerMap')
 
@@ -21,7 +22,7 @@ const ControllerMap = reactUtil.createReduxClass({
     let {props, state} = s
     let {storeState} = props
     let {map} = storeState
-    let mapHeight = window.innerHeight - 50 // header-height = 50px
+    let mapHeight = window.innerHeight - parseInt(cssVars['header-height'], 10)
     return (
       <div className='controller-map' id='controller-map' style={{height: `${mapHeight}px`}}>
         <GoogleMap center={map.center}

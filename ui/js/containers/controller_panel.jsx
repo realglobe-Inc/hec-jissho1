@@ -14,10 +14,8 @@ const ControllerPanel = reactUtil.createReduxClass({
   render () {
     const s = this
     let display = s.props.storeState.infoDisplay
-    let width = 400 // See controller-panel.scss $panel-width
-    let displayStyle = display ? {} : {left: `-${width}px`}
     return (
-      <div className='controller-panel' style={displayStyle}>
+      <div className={c('controller-panel', display ? '' : 'pannel-hidden')}>
         <div className='panel-display-toggle'>
           <i className={c('fa', 'fa-3x', display ? 'fa-caret-left' : 'fa-caret-right')} aria-hidden></i>
           <div className='expand' onClick={s.toggleDisplay}></div>

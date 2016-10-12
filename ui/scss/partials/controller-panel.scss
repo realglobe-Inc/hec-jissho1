@@ -23,6 +23,10 @@ $panel-width: 400px;
   transition: left 0.4s ease;
 }
 
+.pannel-hidden {
+  left: -$panel-width;
+}
+
 .panel-display-toggle {
   position: absolute;
   top: 0;

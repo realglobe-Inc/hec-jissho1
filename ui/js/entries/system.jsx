@@ -22,7 +22,7 @@ co(function * () {
   function render () {
     ReactDOM.render(
       <Provider store={ store }>
-      <App color={ color }/>
+      <App/>
       </Provider>,
       rootEl
     )
