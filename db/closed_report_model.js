@@ -23,6 +23,17 @@ function ClosedReportModel () {
   })
 
   let model = sequelize.define('closed_report', {
+    /* Actor key + 通報 ID */
+    report_full_id: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
+    /* Actor key */
+    actor_key: {
+      type: Sequelize.NUMBER,
+      allowNull: false
+    },
     /* 通報 ID */
     report_id: {
       type: Sequelize.STRING,

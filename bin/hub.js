@@ -7,6 +7,7 @@ const OpenReportModel = require('../db/open_report_model')
 const ClosedReportModel = require('../db/closed_report_model')
 const co = require('co')
 const env = require('../env')
+const commonFunc = require('../lib/common_func')
 
 const debug = require('debug')('hec:hub')
 
@@ -25,23 +26,23 @@ co(function * () {
         GET: (ctx) => {
           return co(function * () {
             let OpenReport = OpenReportModel()
-            let reportIds = yield OpenReport.findAll()
-            if (reportIds.length === 0) {
+            let opens = yield OpenReport.findAll()
+            if (opens.length === 0) {
               ctx.body = []
               return
             }
-            reportIds = reportIds.map(({report_id}) => report_id)
-            debug('report IDs: ', reportIds)
+            let reportFullIds = opens.map(({report_full_id}) => report_full_id)
+            debug('Actor keys: ', reportFullIds)
             let Report = ReportModel()
             // TODO 通報は最初と最新だけを取ってくればいいはず
             let reports = yield Report.findAll({
               where: {
-                report_id: {
-                  $in: reportIds
+                report_full_id: {
+                  $in: reportFullIds
                 }
               }
             })
-            debug('Reports: ', reports.length)
+            debug('Open Reports: ', reports.length)
             ctx.body = reports
           })
         }
@@ -60,9 +61,9 @@ co(function * () {
       ['/api/close_report']: {
         POST: (ctx) => co(function * () {
           debug(ctx.request.body)
-          let {actor_key, closed_date} = ctx.request.body
-          if (!actor_key || !closed_date) {
-            let message = `Invalid body. actor_key: ${actor_key}, closed_date: ${closed_date}`
+          let {report_full_id, closed_date} = ctx.request.body
+          if (!report_full_id || !closed_date) {
+            let message = `Invalid body. report_full_id: ${report_full_id}, closed_date: ${closed_date}`
             debug(message)
             ctx.status = 400
             ctx.body = {
@@ -71,38 +72,29 @@ co(function * () {
             }
             return
           }
-          // actorKey から report_id を復元する
-          // 一つの actorKey に対しオープンな通報は高々一つであるように実装されている
-          let OpenReport = OpenReportModel()
-          let reportData = yield OpenReport.findOne({
-            where: {
-              report_id: {
-                $like: `${actor_key}%`
-              }
-            }
-          })
-          let {report_id} = reportData.dataValues
           // DB 操作
           let firstReport = yield ReportModel().findOne({
             where: {
-              report_id,
+              report_full_id,
               event: 'emergency'
             },
             order: 'createdAt'
           })
           yield ClosedReportModel().create({
-            report_id,
+            report_full_id,
+            actor_key: commonFunc.toActorKey(report_full_id),
+            report_id: commonFunc.toReportId(report_full_id),
             first_report_date: new Date(firstReport.dataValues.date),
             closed_date: new Date(closed_date)
           })
+          let OpenReport = OpenReportModel()
           yield OpenReport.destroy({
             where: {
-              report_id
+              report_full_id
             }
           })
           ctx.body = {
-            success: true,
-            report_id
+            success: true
           }
         })
       }

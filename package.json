@@ -48,6 +48,7 @@
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.24.2",
     "sha1": "^1.1.1",
+    "snake-case": "^2.1.0",
     "sugo-caller": "^2.1.7",
     "sugo-ci-site": "^1.0.20",
     "sugo-hub": "^4.0.4",

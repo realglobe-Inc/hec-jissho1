@@ -35,7 +35,10 @@ co(function * () {
   yield actor.connect()
 
   // 通報する Mock
+  let id = Math.floor(Math.random() * 1000000)
+  debug('Hitoe report id: ', id)
   let reports = (new Array(5)).fill(1).map((v, i) => ({
+    id,
     location: [35.700275 + i * 0.0001, 139.753314, 10.22], // lat, lng, height
     heartRate: 30
   }))
