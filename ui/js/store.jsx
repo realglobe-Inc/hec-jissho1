@@ -26,11 +26,12 @@ let store = createStore(
 
 Object.assign(store, {
   initializeMarkers () {
+    const s = this
     // 閲覧者
     if (navigator.geolocation) {
       appUtil.getMyLocation()
         .then((location) => {
-          this.dispatch(actions.addMarker({
+          s.dispatch(actions.addMarker({
             key: 'you',
             type: MARKER_TYPE.PERSON,
             name: 'YOU',
@@ -42,7 +43,7 @@ Object.assign(store, {
           setInterval(() => {
             appUtil.getMyLocation()
             .then((location) => {
-              this.dispatch(actions.moveMarker({
+              s.dispatch(actions.moveMarker({
                 key: 'you',
                 location
               }))
@@ -53,7 +54,7 @@ Object.assign(store, {
       debug('Not found navigator.geolocation')
     }
     // 本部
-    this.dispatch(actions.addMarker({
+    s.dispatch(actions.addMarker({
       key: 'center',
       type: MARKER_TYPE.DEFAULT,
       name: '本部',
@@ -61,28 +62,35 @@ Object.assign(store, {
       location: mapCenter
     }))
     // 最新の通報を地図上に表示する
-    let state = this.getState()
+    let state = s.getState()
     let {reports} = state
-    for (let actorKey of Object.keys(reports)) {
+    let actorKeys = Object.keys(reports)
+    for (let i = 0; i < actorKeys.length; i++) {
+      let actorKey = actorKeys[i]
       let latest = storeUtil.getLatestReport({state, actorKey})
       let first = storeUtil.getFirstReport({state, actorKey})
       if (latest) {
         // marker の key は reportId
         let location = {lat: latest.lat, lng: latest.lng}
-        debug(latest.actorKey)
+        debug(actorKey)
         appUtil.getAddress(location)
           .catch((e) => {
             return '詳細不明'
           })
           .then((address) => {
-            this.dispatch(actions.addMarker({
-              key: latest.actorKey,
+            s.dispatch(actions.addMarker({
+              key: actorKey,
               location,
               address,
               type: MARKER_TYPE.REPORT,
               name: MARKER_NAME.REPORTER + '@' + appUtil.formatTime(first.date),
               dynamic: false
             }))
+            // 最初の通報を情報欄に表示する
+            if (i === 0) {
+              s.dispatch(actions.changeMapCenter(location))
+              s.dispatch(actions.selectMarkerKey(actorKey))
+            }
           })
       }
     }
