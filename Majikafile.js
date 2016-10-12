@@ -2,6 +2,7 @@
  * majika 設定ファイル
  */
 'use strict'
+const pkg = require('./package.json')
 
 const common = {
   makeNpmrc: [
@@ -18,10 +19,13 @@ module.exports = {
         value: 'production'
       },
       DEBUG: {
-        value: 'sg:*'
+        value: 'sg:*,hec:*,socket.io:*'
       },
       HEROKU: {
         value: 'true'
+      },
+      HUB_URL: {
+        value: `https://${pkg.name}.herokuapp.com`
       }
     },
     addons: [
