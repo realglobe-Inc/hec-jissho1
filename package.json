@@ -38,6 +38,7 @@
     "koa-logger": "^2.0.0",
     "mysql": "^2.11.1",
     "node-sass": "^3.8.0",
+    "node-sass-json-importer": "^2.1.1",
     "postcss-loader": "^0.9.1",
     "react": "^15.3.0",
     "react-addons-css-transition-group": "^15.3.2",

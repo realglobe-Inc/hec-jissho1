@@ -1,4 +1,5 @@
 /* TEAM */
 
-UI developer: Fuji Haruka
-Actor: Fujichi Daisuke
+Chief: Okunishi Taka
+Developer: Fuji Haruka
+Developer: Fujichi Daisuke
