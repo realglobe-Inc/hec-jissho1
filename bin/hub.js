@@ -38,16 +38,21 @@ co(function * () {
             let reportFullIds = opens.map(({report_full_id}) => report_full_id)
             debug('Actor keys: ', reportFullIds)
             let Report = ReportModel()
-            // TODO 通報は最初と最新だけを取ってくればいいはず
-            let reports = yield Report.findAll({
-              where: {
-                report_full_id: {
-                  $in: reportFullIds
-                }
-              }
-            })
-            debug('Open Reports: ', reports.length)
-            ctx.body = reports
+            let openReports = []
+            for (let report_full_id of reportFullIds) {
+              // 最初と最後だけ抽出
+              let reports = yield Report.findAll({
+                where: {
+                  report_full_id
+                },
+                order: 'createdAt'
+              })
+              let first = reports[0]
+              let latest = reports[reports.length - 1]
+              openReports.push(first, latest)
+            }
+            debug('Open Reports: ', openReports.length)
+            ctx.body = openReports
           })
         }
       },
