@@ -44,7 +44,7 @@ const ControllerPanelArea = reactUtil.createReduxClass({
       case CLOSED_REPORT:
         return (
           <div className='area-no-report'>
-            <h4>通報はありません</h4>
+            <h4>通報をクローズしました</h4>
             <div><a href='/reports.html'>対応済み通報一覧</a></div>
           </div>
         )

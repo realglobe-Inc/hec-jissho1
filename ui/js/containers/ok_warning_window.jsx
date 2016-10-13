@@ -10,14 +10,14 @@ const debug = require('debug')('hec:OkWarningWindow')
 const OkWarningWindow = reactUtil.createReduxClass({
   render () {
     const s = this
-    let display = s.shouldDisplay(s.props.storeState)
+    let show = s.shouldShow(s.props.storeState)
     return (
-      <div className={c('modal-window-background-nobg', display ? '' : 'hidden')}>
+      <div className={c('modal-window-background-nobg', show ? '' : 'hidden')}>
         <div className='confirm-close-report'>
           <div className='message red'>
             通報が来ました！
           </div>
-          <div className='buttons' onKeyPress={s.detectKey}>
+          <div className='buttons'>
             <ApButton onTap={s.stop}>閉じる</ApButton>
           </div>
         </div>
@@ -27,7 +27,7 @@ const OkWarningWindow = reactUtil.createReduxClass({
 
   componentDidUpdate (prevProps) {
     const s = this
-    let appear = !s.shouldDisplay(prevProps.storeState) && s.shouldDisplay(s.props.storeState)
+    let appear = !s.shouldShow(prevProps.storeState) && s.shouldShow(s.props.storeState)
     if (appear) {
       document.addEventListener('keydown', s.detectEnter)
       return
@@ -43,12 +43,12 @@ const OkWarningWindow = reactUtil.createReduxClass({
 
   stop () {
     const s = this
-    document.removeEventListener('keydown', s.stop)
+    document.removeEventListener('keydown', s.detectEnter)
     s.props.dispatch(actions.stopWarning())
     s.props.dispatch(actions.toggleModal(MODAL.OK_WARNING))
   },
 
-  shouldDisplay (storeState) {
+  shouldShow (storeState) {
     return storeState.modalWindow[MODAL.OK_WARNING]
   }
 })

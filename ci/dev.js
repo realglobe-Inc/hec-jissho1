@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
-process.env.DEBUG = 'sg:*,socket.io:*'
+process.env.DEBUG = 'sg:*,hec:*'
 process.chdir(`${__dirname}/..`)
 
 const co = require('co')

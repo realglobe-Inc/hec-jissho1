@@ -46,6 +46,7 @@ function connectCaller (key) {
     }
     let Caller = sugoCaller(urls.callers(), {})
     let caller = yield Caller.connect(key)
+    debug(`Connected caller: ${key}`)
     let type = _moduleType(caller)
     switch (type) {
       case HITOE_MODULE_NAME:
