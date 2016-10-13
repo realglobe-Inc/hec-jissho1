@@ -49,6 +49,8 @@ Object.assign(store, {
               }))
             })
           }, 5000)
+        }).catch((err) => {
+          console.log('閲覧者の位置情報を取得できませんでした')
         })
     } else {
       debug('Not found navigator.geolocation')

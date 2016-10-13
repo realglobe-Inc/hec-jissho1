@@ -7,7 +7,6 @@ import co from 'co'
  */
 const setClosedReport = (actorKey) => (dispatch, getState) => co(function * () {
   let state = getState()
-  console.log(state)
   let first = storeUtil.getFirstReport({state, actorKey})
   let ms = new Date() - first.date // ミリ秒
   let report = Object.assign({
