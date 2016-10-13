@@ -9,6 +9,7 @@ const WarningDisplay = reactUtil.createReduxClass({
   render () {
     const s = this
     let {display} = s.props.storeState.warningDisplay
+    debug('show', display)
     let item = display ? s.displayElement() : []
     return (
       <ReactCSSTransitionGroup

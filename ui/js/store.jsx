@@ -36,7 +36,7 @@ Object.assign(store, {
           s.dispatch(actions.addMarker({
             key: 'you',
             type: MARKER_TYPE.PERSON,
-            name: 'YOU',
+            name: '自分',
             dynamic: true,
             location
           }))
