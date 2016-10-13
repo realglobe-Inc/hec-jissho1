@@ -17,6 +17,12 @@ PORT: ${env.port.SERVER}
 REDIS_URL: ${env.redis.URL}
 `)
 
+/** 本部の位置 ここにおくと永続化できない */
+let centerLocation = {
+  lat: 35.701562,
+  lng: 139.753148
+}
+
 co(function * () {
   let server = sugoHub({
     public: [ 'public' ],
@@ -109,6 +115,20 @@ co(function * () {
             success: true
           }
         })
+      },
+      /* 本部の位置 */
+      ['/center_location']: {
+        GET: (ctx) => {
+          ctx.body = centerLocation
+        },
+        POST: (ctx) => {
+          let location = ctx.request.body
+          // TODO validation
+          centerLocation = location
+          ctx.body = {
+            success: true
+          }
+        }
       }
     },
     middlewares: [
