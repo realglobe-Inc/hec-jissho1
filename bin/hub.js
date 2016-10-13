@@ -9,6 +9,7 @@ const co = require('co')
 const env = require('../env')
 const commonFunc = require('../lib/common_func')
 const {mapCenter} = require('../ui/config')
+const API_ROUTES = require('../lib/api_routes')
 
 const debug = require('debug')('hec:hub')
 
@@ -26,7 +27,7 @@ co(function * () {
     public: [ 'public' ],
     endpoints: {
       /* クローズされていない通報情報 */
-      ['/api/reports']: {
+      [API_ROUTES.OPEN_REPORTS]: {
         GET: (ctx) => {
           return co(function * () {
             let OpenReport = OpenReportModel()
@@ -57,7 +58,7 @@ co(function * () {
         }
       },
       /* クローズされた通報情報 */
-      ['/api/closed_reports']: {
+      [API_ROUTES.CLOSED_REPORTS]: {
         GET: (ctx) => {
           return co(function * () {
             let ClosedReport = ClosedReportModel()
@@ -67,7 +68,7 @@ co(function * () {
         }
       },
       /* ある Actor の通報をクローズする */
-      ['/api/close_report']: {
+      [API_ROUTES.CLOSE_REPORT]: {
         POST: (ctx) => co(function * () {
           debug(ctx.request.body)
           let {actor_key, closed_date} = ctx.request.body
@@ -120,7 +121,7 @@ co(function * () {
         })
       },
       /* 本部の位置 */
-      ['/center_location']: {
+      [API_ROUTES.CENTER_LOCATION]: {
         GET: (ctx) => {
           ctx.body = centerLocation
         },

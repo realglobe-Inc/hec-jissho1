@@ -2,10 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import co from 'co'
 import auth from '../auth'
-import request from 'browser-request'
 import Header from '../components/header'
 import AppStyle from '../components/app_style'
 import {ApButton} from 'apeman-react-button'
+import urls from '../utils/urls'
+import {request} from '../utils/js_util'
 
 const App = React.createClass({
   getInitialState () {
@@ -58,45 +59,42 @@ const App = React.createClass({
 
   componentDidMount () {
     const s = this
-    request({
-      url: '/center_location',
-      method: 'GET',
-      json: true
-    }, (err, resp, body) => {
-      if (err) {
-        throw err
-      }
-      s.setState({centerLocation: body})
-    })
+    return co(function * () {
+      let centerLocation = yield request({
+        url: urls.centerLocation(),
+        method: 'GET',
+        json: true
+      })
+      s.setState({centerLocation})
+    }).catch((err) => { throw err })
   },
+
   changeCenterLocation () {
     const s = this
-    let lat = parseFloat(s._inputLat.value)
-    let lng = parseFloat(s._inputLng.value)
-    let invalid = isNaN(lat) || isNaN(lng)
-    if (invalid) {
-      window.alert('正しい数値を入力してください。')
-      return
-    }
-    let centerLocation = {lat, lng}
-    let confirm = window.confirm(`本部の位置を変更しますか?\n緯度:${lat}\n経度:${lng}`)
-    if (!confirm) {
-      return
-    }
-    request({
-      url: '/center_location',
-      method: 'POST',
-      json: true,
-      body: centerLocation
-    }, (err, resp, body) => {
-      if (err) {
-        throw err
+    return co(function * () {
+      let lat = parseFloat(s._inputLat.value)
+      let lng = parseFloat(s._inputLng.value)
+      let invalid = isNaN(lat) || isNaN(lng)
+      if (invalid) {
+        window.alert('正しい数値を入力してください。')
+        return
       }
+      let centerLocation = {lat, lng}
+      let confirm = window.confirm(`本部の位置を変更しますか?\n緯度:${lat}\n経度:${lng}`)
+      if (!confirm) {
+        return
+      }
+      yield request({
+        url: urls.centerLocation(),
+        method: 'POST',
+        json: true,
+        body: centerLocation
+      })
       s._inputLat.value = ''
       s._inputLng.value = ''
       window.alert('変更しました。')
       s.setState({centerLocation})
-    })
+    }).catch((err) => { throw err })
   }
 })
 

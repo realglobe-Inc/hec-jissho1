@@ -3,7 +3,8 @@
  * Used in entries/reports.jsx
  */
 import React from 'react'
-import request from 'browser-request'
+import co from 'co'
+import { request } from '../utils/js_util'
 import urls from '../utils/urls'
 
 const ReportsList = React.createClass({
@@ -24,18 +25,13 @@ const ReportsList = React.createClass({
 
   componentWillMount () {
     const s = this
-    request({
-      method: 'GET',
-      url: urls.closedReports(),
-      json: true
-    }, (err, resp, body) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      s.setState({
-        reports: body
+    return co(function * () {
+      let reports = yield request({
+        method: 'GET',
+        url: urls.closedReports(),
+        json: true
       })
+      s.setState({ reports })
     })
   },
 

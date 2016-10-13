@@ -4,8 +4,8 @@
 import store from '../store'
 import actions from '../actions'
 import co from 'co'
-import request from 'browser-request'
 import urls from './urls'
+import { request } from './js_util'
 import callerManager from './caller_manager'
 import {MODAL} from '../constants'
 
@@ -16,26 +16,24 @@ export default {
    * 通報をクローズする
    */
   closeReport (actorKey) {
-    let closedDate = new Date()
-    // Caller
-    callerManager.disconnectCaller(actorKey)
-    // Store side
-    store.dispatch(actions.removeMarker(actorKey))
-    store.dispatch(actions.setClosedReport(actorKey))
-    store.dispatch(actions.clearReports(actorKey))
-    // Server side
-    request({
-      method: 'POST',
-      url: urls.closeReport(),
-      json: true,
-      body: JSON.stringify({
-        actor_key: actorKey,
-        closed_date: closedDate.toISOString()
+    return co(function * () {
+      let closedDate = new Date()
+      // Caller
+      callerManager.disconnectCaller(actorKey)
+      // Store side
+      store.dispatch(actions.removeMarker(actorKey))
+      store.dispatch(actions.setClosedReport(actorKey))
+      store.dispatch(actions.clearReports(actorKey))
+      // Server side
+      yield request({
+        method: 'POST',
+        url: urls.closeReport(),
+        json: true,
+        body: JSON.stringify({
+          actor_key: actorKey,
+          closed_date: closedDate.toISOString()
+        })
       })
-    }, (err, resp, body) => {
-      if (err) {
-        console.error(err)
-      }
     })
   },
   /**
@@ -118,22 +116,17 @@ export default {
    * 緯度経度から住所を取得する
    */
   getAddress ({lat, lng}) {
-    return new Promise((resolve, reject) => {
-      request({
+    return co(function * () {
+      let body = yield request({
         method: 'GET',
         url: urls.geocode({lat, lng}),
         json: true
-      }, (err, resp, body) => {
-        if (err) {
-          reject(err)
-          return
-        }
-        // Like this, '日本, 〒101-0061 東京都千代田区三崎町２丁目２０−４ 八木ビル'
-        // Format '千代田区三崎町２丁目２０−４'
-        let fullAddress = body.results[0].formatted_address
-        let address = fullAddress.split(' ')[2].replace(/.+?[県都府道]/, '')
-        resolve(address)
       })
+      // Like this, '日本, 〒101-0061 東京都千代田区三崎町２丁目２０−４ 八木ビル'
+      // Format '千代田区三崎町２丁目２０−４'
+      let fullAddress = body.results[0].formatted_address
+      let address = fullAddress.split(' ')[2].replace(/.+?[県都府道]/, '')
+      return address
     })
   }
 }

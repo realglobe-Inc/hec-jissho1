@@ -1,3 +1,5 @@
+const {resolve} = require('url')
+const API_ROUTES = require('../../../lib/api_routes')
 const {apiKey} = require('../../config')
 let {protocol, host} = window.location
 const ORIGIN_URL = `${protocol}//${host}`
@@ -16,25 +18,31 @@ module.exports = {
    * クローズされていない通報情報
    */
   openReports () {
-    return `${ORIGIN_URL}/api/reports`
+    return resolve(ORIGIN_URL, API_ROUTES.OPEN_REPORTS)
   },
   /**
    * クローズされた通報情報
    */
   closedReports () {
-    return `${ORIGIN_URL}/api/closed_reports`
+    return resolve(ORIGIN_URL, API_ROUTES.CLOSED_REPORTS)
   },
   /**
    * 通報をクローズする
    */
   closeReport () {
-    return `${ORIGIN_URL}/api/close_report`
+    return resolve(ORIGIN_URL, API_ROUTES.CLOSE_REPORT)
+  },
+  /**
+   * 本部の位置情報
+   */
+  centerLocation () {
+    return resolve(ORIGIN_URL, API_ROUTES.CENTER_LOCATION)
   },
   /**
    * SUGO Caller
    */
   callers () {
-    return `${ORIGIN_URL}/callers`
+    return resolve(ORIGIN_URL, 'callers')
   },
   /**
    * Google geocode API (reverse)
