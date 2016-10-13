@@ -52,6 +52,8 @@ export default {
     switch (option.type) {
       case 'jp':
         return `${hours}時 ${minutes}分 ${seconds}秒`
+      case 'full_jp':
+        return `${date.getMonth() + 1}月${date.getDate()}日 ${hours}時${minutes}分${seconds}秒`
       case 'simple':
       default:
         return `${hours}:${minutes}:${seconds}`

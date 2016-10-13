@@ -113,10 +113,19 @@ const ControllerPanelArea = reactUtil.createReduxClass({
         </div>
         <div className='info'>
           <div className='name'>
-            通報時刻
+            通報日時
           </div>
           <div className='value'>
-            {appUtil.formatTime(first.date, { type: 'jp' })}
+            {appUtil.formatTime(first.date, { type: 'full_jp' })}
+          </div>
+        </div>
+        <div className='info'>
+          {/* FIXME This is ハリボテ */}
+          <div className='name'>
+            理由
+          </div>
+          <div className='value'>
+            心肺停止
           </div>
         </div>
         <div className='info'>
