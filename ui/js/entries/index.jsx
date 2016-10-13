@@ -7,16 +7,31 @@ import Header from '../components/header'
 const debug = require('debug')('sg:site:entry')
 
 const App = (props) => {
+  let links = [
+    {
+      url: 'system.html',
+      text: 'システム画面'
+    },
+    {
+      url: 'reports.html',
+      text: '対応済み通報一覧'
+    },
+    {
+      url: 'config.html',
+      text: '設定'
+    }
+  ]
   return (
     <div className='app'>
       <Header/>
       <div className='menu-wrapper'>
-        <div className='menu-button'>
-        <a href='system.html'>システム画面</a>
-        </div>
-        <div className='menu-button'>
-        <a href='reports.html'>対応済み通報一覧</a>
-        </div>
+        {
+          links.map((link) => (
+            <div className='menu-button' key={link.url}>
+              <a href={link.url}>{link.text}</a>
+            </div>
+          ))
+        }
       </div>
     </div>
   )

@@ -7,7 +7,8 @@ const devConfig = require('./webpack.config.dev')
 const entries = [
   'index',
   'system',
-  'reports'
+  'reports',
+  'config'
 ]
 
 function config (options) {

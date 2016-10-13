@@ -9,7 +9,8 @@ const jsonImporter = require('node-sass-json-importer')
 const entries = [
   'index',
   'system',
-  'reports'
+  'reports',
+  'config'
 ]
 
 function config (options = {}) {
