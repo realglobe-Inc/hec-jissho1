@@ -29,18 +29,17 @@ const App = React.createClass({
         <AppStyle/>
         <Header/>
         <div className='config'>
-          <h2 className='title'>設定</h2>
+          <h2 className='title'>本部の位置変更</h2>
           <div className='config-center-location'>
-            <h3>本部の位置変更</h3>
             <form>
-              <h4>現在の位置</h4>
+              <h3>現在の位置</h3>
               <div className='item'>
                 経度(lat): {lat}
               </div>
               <div className='item'>
                 緯度(lng): {lng}
               </div>
-              <h4>変更</h4>
+              <h3>変更</h3>
               <div className='item'>
                 緯度(lat): <input type='text' ref={(input) => s._inputLat = input}/>
               </div>
@@ -74,6 +73,11 @@ const App = React.createClass({
     const s = this
     let lat = parseFloat(s._inputLat.value)
     let lng = parseFloat(s._inputLng.value)
+    let invalid = isNaN(lat) || isNaN(lng)
+    if (invalid) {
+      window.alert('正しい数値を入力してください。')
+      return
+    }
     let centerLocation = {lat, lng}
     let confirm = window.confirm(`本部の位置を変更しますか?\n緯度:${lat}\n経度:${lng}`)
     if (!confirm) {
@@ -88,6 +92,9 @@ const App = React.createClass({
       if (err) {
         throw err
       }
+      s._inputLat.value = ''
+      s._inputLng.value = ''
+      window.alert('変更しました。')
       s.setState({centerLocation})
     })
   }

@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
+import request from 'browser-request'
 import Reducer from './reducers'
 import storeUtil from './utils/store_util'
 import actions from './actions'
@@ -56,13 +57,21 @@ Object.assign(store, {
       debug('Not found navigator.geolocation')
     }
     // 本部
-    s.dispatch(actions.addMarker({
-      key: 'center',
-      type: MARKER_TYPE.DEFAULT,
-      name: '本部',
-      dynamic: true,
-      location: mapCenter
-    }))
+    request({
+      url: 'center_location',
+      method: 'GET',
+      json: true
+    }, (err, res, body) => {
+      let mapCenter = err ? mapCenter : body
+      s.dispatch(actions.addMarker({
+        key: 'center',
+        type: MARKER_TYPE.DEFAULT,
+        name: '本部',
+        dynamic: true,
+        location: mapCenter
+      }))
+      s.dispatch(actions.changeMapCenter(mapCenter))
+    })
     // 最新の通報を地図上に表示する
     let state = s.getState()
     let {reports} = state

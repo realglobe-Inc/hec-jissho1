@@ -1,9 +1,11 @@
 /**
  * Reducer of map
  */
-import { mapCenter } from '../../config'
 let initailState = {
-  center: mapCenter
+  center: {
+    lat: 0,
+    lng: 0
+  }
 }
 const map = (state = initailState, action) => {
   switch (action.type) {

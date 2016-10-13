@@ -8,6 +8,7 @@ const ClosedReportModel = require('../db/closed_report_model')
 const co = require('co')
 const env = require('../env')
 const commonFunc = require('../lib/common_func')
+const {mapCenter} = require('../ui/config')
 
 const debug = require('debug')('hec:hub')
 
@@ -17,11 +18,8 @@ PORT: ${env.port.SERVER}
 REDIS_URL: ${env.redis.URL}
 `)
 
-/** 本部の位置 ここにおくと永続化できない */
-let centerLocation = {
-  lat: 35.701562,
-  lng: 139.753148
-}
+/** 本部の位置 ここにおくとデータを永続化できない */
+let centerLocation = mapCenter
 
 co(function * () {
   let server = sugoHub({

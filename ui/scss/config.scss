@@ -14,14 +14,11 @@
 
 .config-center-location {
   h3 {
-    color: $app-dark-color;
+    color: $app-color;
+    border-bottom: 1px solid $app-color;
+    padding-bottom: 4px;
   }
   form {
-    h4 {
-      color: $app-color;
-      border-bottom: 1px solid $app-color;
-      padding-bottom: 4px;
-    }
     .item {
       margin: 10px 0;
       input {
