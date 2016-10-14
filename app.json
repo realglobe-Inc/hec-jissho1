@@ -1,0 +1,23 @@
+{
+  "name": "hec-jissho1",
+  "description": "総務省IoT ヘカトンケイルプロジェクト実証実験1",
+  "env": {
+    "NODE_ENV": {
+      "value": "production"
+    },
+    "DEBUG": {
+      "value": "sg:*,hec:*,socket.io:*"
+    },
+    "HEROKU": {
+      "value": "true"
+    },
+    "HUB_URL": {
+      "value": "https://hec-jissho1.herokuapp.com"
+    }
+  },
+  "addons": [
+    "heroku-redis:hobby-dev",
+    "cleardb:ignite"
+  ],
+  "scripts": {}
+}

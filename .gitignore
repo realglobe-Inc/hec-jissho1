@@ -31,7 +31,6 @@ node_modules
 tmp
 
 
-.npmrc
 .DS_Store
 
 shim/browser
@@ -39,6 +38,7 @@ shim/package.json
 
 var
 dump.rdb
-public/js/*.bundle.js
 public/css
 tmp
+
+.npmrc.bk
