@@ -10,6 +10,7 @@ const env = require('../env')
 const commonFunc = require('../lib/common_func')
 const {mapCenter} = require('../ui/config')
 const API_ROUTES = require('../lib/api_routes')
+const observe = require('./observer')
 
 const debug = require('debug')('hec:hub')
 
@@ -17,6 +18,7 @@ console.log(`
 NODE_ENV: ${process.env.NODE_ENV}
 PORT: ${env.port.SERVER}
 REDIS_URL: ${env.redis.URL}
+HUB_URL: ${process.env.HUB_URL}
 `)
 
 /** 本部の位置 ここにおくとデータを永続化できない */
@@ -145,5 +147,6 @@ co(function * () {
       }
     }
   })
-  server.listen(env.port.SERVER)
+  yield server.listen(env.port.SERVER)
+  yield observe()
 }).catch(err => console.error(err))

@@ -22,11 +22,9 @@ coverage
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
-
 .idea
 tmp
 
-.npmrc
 .DS_Store
 
 shim/browser

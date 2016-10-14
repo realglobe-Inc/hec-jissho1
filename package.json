@@ -6,7 +6,7 @@
     "build": "node ./ci/build.js && node ./ci/compile.js",
     "dev": "node ./ci/dev.js",
     "prepublish": "npm run build",
-    "start": "./ci/db_sync.js & ./bin/hub.js & ./bin/observer.js",
+    "start": "./bin/hub.js",
     "test": "karma start",
     "heroku-postbuild": "npm run build"
   },
@@ -51,7 +51,7 @@
     "snake-case": "^2.1.0",
     "sugo-caller": "^2.1.7",
     "sugo-ci-site": "^1.0.20",
-    "sugo-hub": "^4.0.4",
+    "sugo-hub": "4.0.6",
     "sugo-module-base": "^1.1.2",
     "sugo-observer": "^2.0.6"
   },
