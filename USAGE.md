@@ -1,6 +1,4 @@
-# hec-jissho1 の使い方
-
-[edac.online](https://edac.online)
+# hec-jissho1 UI の使い方
 
 ## 1. はじめに
 
@@ -13,7 +11,7 @@
 
 ### 画面1: Top ページ
 
-![スクリーンショット](./doc/images/hec-jissho1-top.png)
+<img src="./doc/images/hec-jissho1-top.png" width="250" />
 
 + ヘッダーの「緊急通報システム」が TOP ページへのリンクになっている。TOP に戻るときにはいつでもここをクリック。
 + システム画面 ... メインのシステム
@@ -22,7 +20,7 @@
 
 ### 画面2: システム画面
 
-![スクリーンショット](./doc/images/hec-jissho1-system.png)
+<img src="./doc/images/hec-jissho1-system.png" width="250" />
 
 左側が情報欄。情報欄は開閉できる。
 
@@ -30,13 +28,13 @@
 
 ### 画面3: 対応済み通報一覧
 
-![スクリーンショット](./doc/images/hec-jissho1-list.png)
+<img src="./doc/images/hec-jissho1-list.png" width="250" />
 
 対応済み通報一覧。それぞれの通報から到着までの秒数がわかる。
 
 ### 画面4: 設定
 
-![スクリーンショット](./doc/images/hec-jissho1-config.png)
+<img src="./doc/images/hec-jissho1-config.png" width="250" />
 
 本部の場所を設定できる。経度と緯度を入力する。任意の場所の経度と緯度を調べるには、たとえば [Google Map](https://www.google.co.jp/maps) を開いて適当な場所を右クリックし、「この場所について」を選択する。すると、経度と緯度が表示される。
 
