@@ -13,6 +13,7 @@ const OkWarningWindow = reactUtil.createReduxClass({
     let show = s.shouldShow(s.props.storeState)
     return (
       <div className={c('modal-window-background-nobg', show ? '' : 'hidden')}>
+        <div className={show ? 'warning-display' : ''}></div>
         <div className='confirm-close-report'>
           <div className='message red'>
             通報が来ました！
@@ -44,7 +45,6 @@ const OkWarningWindow = reactUtil.createReduxClass({
   stop () {
     const s = this
     document.removeEventListener('keydown', s.detectEnter)
-    s.props.dispatch(actions.stopWarning())
     s.props.dispatch(actions.toggleModal(MODAL.OK_WARNING))
   },
 

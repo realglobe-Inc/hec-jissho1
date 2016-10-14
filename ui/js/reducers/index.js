@@ -51,7 +51,6 @@ import modalWindow from './modal_window'
 import selectedMarkerKey from './selected_marker_key'
 import reports from './reports'
 import reportClosed from './report_closed'
-import warningDisplay from './warning_display'
 
 const Reducer = combineReducers({
   dominantColor,
@@ -62,8 +61,7 @@ const Reducer = combineReducers({
   modalWindow,
   selectedMarkerKey,
   reports,
-  reportClosed,
-  warningDisplay
+  reportClosed
 })
 
 export default Reducer

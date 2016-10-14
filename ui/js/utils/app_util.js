@@ -62,7 +62,7 @@ export default {
    */
   warnDisplay () {
     let state = store.getState()
-    let shouldSkip = state.warningDisplay.nowWarning
+    let shouldSkip = state.modalWindow[MODAL.OK_WARNING]
     if (shouldSkip) {
       return
     }
@@ -76,11 +76,6 @@ export default {
     let audio = document.createElement('audio')
     audio.src = 'warning.mp3'
     audio.autoplay = true
-    const warningFunc = setInterval(() => {
-      debug('toggle warning')
-      store.dispatch(actions.toggleWarningDisplay())
-    }, 600)
-    store.dispatch(actions.startWarning(warningFunc))
     store.dispatch(actions.toggleModal(MODAL.OK_WARNING))
   },
   /**

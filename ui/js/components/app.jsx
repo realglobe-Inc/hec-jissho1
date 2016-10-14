@@ -16,7 +16,6 @@ const App = React.createClass({
         <AppStyle/>
         <Header/>
         <SectionMapController />
-        <WarningDisplay/>
         <OkWarningWindow/>
         <ConfirmCloseReportWindow/>
       </div>
