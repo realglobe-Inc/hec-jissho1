@@ -34,6 +34,4 @@ shim/package.json
 
 var
 dump.rdb
-public/js/*.bundle.js
-public/css
 tmp

@@ -1,7 +1,4 @@
-FROM node:6.2.0
-
-ARG NPM_USER
-ARG NPM_PASSWORD
+FROM node:6.6
 
 MAINTAINER Fuji Haruka
 
