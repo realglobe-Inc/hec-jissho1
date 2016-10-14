@@ -16,9 +16,11 @@ const debug = require('debug')('hec:caller_manager')
  */
 function connectCallers () {
   return co(function * () {
-    let actors = yield hubAgent(urls.origin()).actors()
-    for (let actor of actors) {
-      yield connectCaller(actor.key)
+    // store に reports がフェッチされていることが前提
+    let reports = store.getState().reports
+    let openActorKeys = Object.keys(reports)
+    for (let key of openActorKeys) {
+      yield connectCaller(key)
     }
   })
 }
