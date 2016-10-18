@@ -72,7 +72,6 @@ export default {
       store.dispatch(actions.toggleInfoDisplay())
     }
     // 音
-    // TODO loop
     let audio = document.createElement('audio')
     audio.src = 'warning.mp3'
     audio.autoplay = true

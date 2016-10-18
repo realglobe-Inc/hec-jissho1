@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+/**
+ * サーバー側のメイン。 SUGO-Hub サーバーと SUGO-Observer を立てる。
+ */
 
 const sugoHub = require('sugo-hub')
 const logger = require('koa-logger')()

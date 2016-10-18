@@ -16,7 +16,6 @@ const entries = [
 function config (options = {}) {
   let { host, port } = options
   return [ {
-    // TODO index.jsx を entries/ に移動してrename
     entry: entries.reduce((obj, name) => {
       return Object.assign(obj, {
         [name]: [
