@@ -64,6 +64,7 @@ Object.assign(store, {
       json: true
     }).catch((e) => mapCenter)
       .then((location) => {
+        debug('Center location', location)
         s.dispatch(actions.addMarker({
           key: 'center',
           type: MARKER_TYPE.DEFAULT,
@@ -71,7 +72,7 @@ Object.assign(store, {
           dynamic: true,
           location
         }))
-        s.dispatch(actions.changeMapCenter(mapCenter))
+        s.dispatch(actions.changeMapCenter(location))
       })
     // 最新の通報を地図上に表示する
     let state = s.getState()
