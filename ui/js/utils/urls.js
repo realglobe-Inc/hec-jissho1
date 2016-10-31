@@ -2,7 +2,7 @@ const {resolve} = require('url')
 const API_ROUTES = require('../../../lib/api_routes')
 const {apiKey} = require('../../config')
 let {protocol, host} = window.location
-const ORIGIN_URL = `${protocol}//${host}`
+const ORIGIN_URL = `${protocol}//${host}` + (process.env.NODE_ENV === 'production' ? '/hec-jissho1' : '')
 
 module.exports = {
   protocol () {

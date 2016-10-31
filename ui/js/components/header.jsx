@@ -9,7 +9,7 @@ const Header = React.createClass({
   render () {
     return (
       <div className={classnames('header', 'app-theme-background-color')}>
-        <h1><a href='/'>緊急通報システム</a></h1>
+        <h1><a href='index.html'>緊急通報システム</a></h1>
         <Watch/>
       </div>
     )

@@ -15,7 +15,7 @@ const App = (props) => {
         <ReportsList/>
       </div>
       <div className='back-to-top'>
-        <a href='/'>TOP に戻る</a>
+        <a href='index.html'>TOP に戻る</a>
       </div>
     </div>
   )
