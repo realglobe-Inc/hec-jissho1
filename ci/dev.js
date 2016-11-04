@@ -55,6 +55,4 @@ co(function * () {
   spawnWithEnv('./bin/hub.js')
   yield asleep(1000)
   devServer({ host: HOST, port, dir: process.cwd() })
-  yield asleep(1000)
-  yield observe()
 }).catch((err) => console.error(err))

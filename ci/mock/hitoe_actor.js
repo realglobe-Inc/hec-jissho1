@@ -2,8 +2,6 @@
 
 process.env.DEBUG = 'sg:*,hec:*'
 
-const HUB_URL = process.env.HUB_URL || 'http://localhost:3000'
-
 // README の Actor 規約参照
 const ACTOR_KEY = process.env.ACTOR_KEY || `qq:hitoe:${randInt()}`
 
@@ -30,8 +28,11 @@ process.on('SIGINT', () => co(function * () {
 
 co(function * () {
   let hitoe = new HitoeModule()
-  actor = sugoActor(`${HUB_URL}/actors`, {
+  actor = sugoActor({
+    protocol: 'https',
+    host: 'edac.online',
     key: ACTOR_KEY,
+    path: '/jissho1/socket.io',
     modules: { hitoe }
   })
   yield actor.connect()

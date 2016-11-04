@@ -1,6 +1,5 @@
 import sugoObserver from 'sugo-observer'
 import sugoCaller from 'sugo-caller'
-import hubAgent from 'sugo-hub/shim/browser/agent'
 import actions from '../actions'
 import co from 'co'
 import store from '../store'
@@ -30,10 +29,7 @@ function connectCallers () {
  */
 function observeActors () {
   return co(function * () {
-    let observer = sugoObserver(_handleOberver, {
-      protocol: urls.protocol(),
-      host: urls.host()
-    })
+    let observer = sugoObserver(_handleOberver, urls.observers())
     yield observer.start()
     debug('Observer started')
   })
@@ -46,7 +42,7 @@ function connectCaller (key) {
     if (callerExists) {
       return
     }
-    let Caller = sugoCaller(urls.callers(), {})
+    let Caller = sugoCaller(urls.callers())
     let caller = yield Caller.connect(key)
     debug(`Connected caller: ${key}`)
     let type = _moduleType(caller)
